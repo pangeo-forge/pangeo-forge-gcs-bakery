@@ -1,0 +1,29 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: prefect-agent-rbac
+  namespace: ${BAKERY_NAMESPACE}
+rules:
+  - apiGroups:
+      - batch
+      - extensions
+    resources:
+      - jobs
+    verbs:
+      - '*'
+  - apiGroups:
+      - ''
+    resources:
+      - events
+      - pods
+      - pods/log
+      - services
+    verbs:
+      - '*'
+  - apiGroups:
+      - policy
+    resources:
+      - poddisruptionbudgets
+    verbs:
+      - '*'
