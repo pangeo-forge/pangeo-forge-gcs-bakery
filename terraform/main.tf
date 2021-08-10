@@ -1,3 +1,6 @@
+data "google_project" "project" {
+}
+
 resource "google_service_account" "default" {
   account_id   = "alex-b-test-acct"
   display_name = "Alex Bush Test Service Account"
@@ -22,7 +25,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
 
   node_config {
     preemptible  = true
-    machine_type = "e2-micro"
+    machine_type = "e2-medium"
 
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     service_account = google_service_account.default.email
@@ -30,4 +33,16 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
       "https://www.googleapis.com/auth/cloud-platform"
     ]
   }
+}
+
+output "cluster_name" {
+  value = google_container_cluster.primary.name
+}
+
+output "cluster_region" {
+  value = google_container_cluster.primary.location
+}
+
+output "cluster_project" {
+  value = "pangeo-forge-bakery-gcp"
 }
