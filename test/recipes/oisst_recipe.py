@@ -5,7 +5,7 @@ from functools import wraps
 
 import pandas as pd
 import yaml
-from adlfs import AzureBlobFileSystem
+from gcsfs import GCSFileSystem
 from dask_kubernetes.objects import make_pod_spec
 from pangeo_forge_recipes.patterns import pattern_from_file_sequence
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
@@ -31,18 +31,19 @@ def set_log_level(func):
 
 
 def register_recipe(recipe: BaseRecipe):
-    fs_remote = AzureBlobFileSystem(
-        connection_string=os.environ["FLOW_STORAGE_CONNECTION_STRING"]
+    fs_remote = GCSFileSystem(
+        project='pangeo-forge-bakery-gcp',
+        token='cloud'
     )
     target = FSSpecTarget(
         fs_remote,
-        root_path=f"abfs://{os.environ['FLOW_CACHE_CONTAINER']}/azurerecipetest/",
+        root_path=f"alex-bush-test-bucket/target",
     )
     recipe.target = target
     recipe.input_cache = CacheFSSpecTarget(
         fs_remote,
         root_path=(
-            f"abfs://{os.environ['FLOW_CACHE_CONTAINER']}/azurerecipetestcache/"
+            f"alex-bush-test-bucket/cache"
         ),
     )
     recipe.metadata_cache = target
@@ -67,21 +68,12 @@ def register_recipe(recipe: BaseRecipe):
     )
 
     flow_name = "test-noaa-flow"
-#     flow.storage = storage.Azure(
-#         container=os.environ["FLOW_STORAGE_CONTAINER"],
-#         connection_string=os.environ["FLOW_STORAGE_CONNECTION_STRING"],
-#     )
     flow.storage = GCS(
         bucket="alex-bush-test-bucket"
     )
     flow.run_config = KubernetesRun(
         job_template=job_template,
         image=os.environ["BAKERY_IMAGE"],
-        env={
-            "AZURE_STORAGE_CONNECTION_STRING": os.environ[
-                "FLOW_STORAGE_CONNECTION_STRING"
-            ],
-        },
         labels=json.loads(os.environ["PREFECT__CLOUD__AGENT__LABELS"]),
         cpu_request="1000m",
         memory_request="3Gi",
@@ -96,11 +88,6 @@ def register_recipe(recipe: BaseRecipe):
                 memory_request="500Mi",
                 cpu_limit="512m",
                 cpu_request="256m",
-                env={
-                    "AZURE_STORAGE_CONNECTION_STRING": os.environ[
-                        "FLOW_STORAGE_CONNECTION_STRING"
-                    ]
-                },
             ),
         },
         adapt_kwargs={"maximum": 10},
