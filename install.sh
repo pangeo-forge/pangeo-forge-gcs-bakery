@@ -1,4 +1,11 @@
-#!/bin/bash
+#!/bin/bash -e
+
+function cleanup {
+  echo "Removing storage key"
+  rm -f kubernetes/storage_key.json
+}
+
+trap cleanup EXIT
 
 function apply_file_with_subst {
   cat $1 | envsubst | kubectl apply -f -
