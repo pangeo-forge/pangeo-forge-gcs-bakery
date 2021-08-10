@@ -11,7 +11,7 @@ from pangeo_forge_recipes.patterns import pattern_from_file_sequence
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 from pangeo_forge_recipes.recipes.base import BaseRecipe
 from pangeo_forge_recipes.storage import CacheFSSpecTarget, FSSpecTarget
-from prefect import storage
+from prefect.storage import GCS
 from prefect.executors.dask import DaskExecutor
 from prefect.run_configs.kubernetes import KubernetesRun
 from rechunker.executors import PrefectPipelineExecutor
@@ -67,9 +67,12 @@ def register_recipe(recipe: BaseRecipe):
     )
 
     flow_name = "test-noaa-flow"
-    flow.storage = storage.Azure(
-        container=os.environ["FLOW_STORAGE_CONTAINER"],
-        connection_string=os.environ["FLOW_STORAGE_CONNECTION_STRING"],
+#     flow.storage = storage.Azure(
+#         container=os.environ["FLOW_STORAGE_CONTAINER"],
+#         connection_string=os.environ["FLOW_STORAGE_CONNECTION_STRING"],
+#     )
+    flow.storage = GCS(
+        bucket="alex-test-bucket"
     )
     flow.run_config = KubernetesRun(
         job_template=job_template,

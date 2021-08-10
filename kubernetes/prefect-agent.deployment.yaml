@@ -25,6 +25,9 @@ spec:
             limits:
               memory: "512Mi"
               cpu: "200m"
+          volumeMounts:
+            - name: google-credentials
+              mountPath:  /opt
           env:
             - name: PREFECT__CLOUD__AGENT__AUTH_TOKEN
               value: ${PREFECT__CLOUD__AGENT__AUTH_TOKEN}
@@ -42,6 +45,8 @@ spec:
               value: http://:8080
             - name: DELETE_FINISHED_JOBS
               value: 'False'
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: "/opt/googlecreds.json"
           image: ${BAKERY_IMAGE}
           imagePullPolicy: Always
           livenessProbe:
@@ -52,3 +57,7 @@ spec:
             initialDelaySeconds: 40
             periodSeconds: 40
           name: agent
+      volumes:
+        - name: google-credentials
+          secret:
+            secretName: google-credentials

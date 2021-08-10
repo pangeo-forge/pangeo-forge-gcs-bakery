@@ -3,7 +3,7 @@ FLOW_FILE=$1
 FULL_PATH=$(realpath $0)
 ROOT_PATH=$(dirname $FULL_PATH)
 docker run -it --rm \
-    -v $ROOT_PATH/test/$FLOW_FILE:/opt/$FLOW_FILE \
+    -v $ROOT_PATH/test/recipes/$FLOW_FILE:/opt/$FLOW_FILE \
     -e FLOW_STORAGE_CONNECTION_STRING \
     -e FLOW_STORAGE_CONTAINER \
     -e FLOW_CACHE_CONTAINER \

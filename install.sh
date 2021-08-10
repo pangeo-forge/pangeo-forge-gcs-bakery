@@ -8,20 +8,31 @@ echo "------------------------------------------"
 echo "       Pangeo Forge - GCE bakery"
 echo "------------------------------------------"
 echo "- Checking prerequisites..."
+OK=1
 if [ -z "${BAKERY_NAMESPACE}" ]; then
   echo "[X] - BAKERY_NAMESPACE is not set"
-  exit 1
+  OK=0
 fi
 
 if [ -z "${BAKERY_IMAGE}" ]; then
   echo "[X] - BAKERY_IMAGE is not set"
-  exit 2
+  OK=0
 fi
 
 if [ -z "${PREFECT__CLOUD__AGENT__AUTH_TOKEN}" ]; then
   echo "[X] - PREFECT__CLOUD__AGENT__AUTH_TOKEN is not set"
-  exit 3
+  OK=0
 fi
+
+if [ -z "${STORAGE_SERVICE_ACCOUNT_NAME}" ]; then
+  echo "[X] - STORAGE_SERVICE_ACCOUNT_NAME is not set"
+  OK=0
+fi
+
+if [ OK == 0 ]; then
+  exit 1
+fi
+
 SCRIPT_DIR=`dirname $(realpath $0)`
 
 echo "- Beginning Terraform"
@@ -32,6 +43,11 @@ terraform apply
 CLUSTER_NAME=`terraform output cluster_name | tr -d '"'`
 CLUSTER_REGION=`terraform output cluster_region | tr -d '"'`
 CLUSTER_PROJECT=`terraform output cluster_project | tr -d '"'`
+
+echo "- Beginning storage operations"
+gcloud iam service-accounts create $STORAGE_SERVICE_ACCOUNT_NAME
+gcloud projects add-iam-policy-binding $CLUSTER_PROJECT --member="serviceAccount:$STORAGE_SERVICE_ACCOUNT_NAME@$CLUSTER_PROJECT.iam.gserviceaccount.com" --role="roles/viewer"
+gcloud iam service-accounts keys create $SCRIPT_DIR/kubernetes/storage_key.json --iam-account=$STORAGE_SERVICE_ACCOUNT_NAME@$CLUSTER_PROJECT.iam.gserviceaccount.com
 
 echo "- Beginning Kubernetes operations"
 echo "CLUSTER: $CLUSTER_NAME"
@@ -51,6 +67,8 @@ if [ $? -eq 1 ]; then
 else
   echo "- Namespace \"$BAKERY_NAMESPACE\" already exists, not creating"
 fi
+
+kubectl create secret generic --from-file=$SCRIPT_DIR/kubernetes/storage_key.json -n $BAKERY_NAMESPACE google-credentials
 
 for file in $FILES
 do
