@@ -1,4 +1,9 @@
-#!/bin/sh
+#!/bin/bash
+
+function apply_file_with_subst {
+  cat $1 | envsubst | kubectl apply -f -
+}
+
 echo "------------------------------------------"
 echo "       Pangeo Forge - GCE bakery"
 echo "------------------------------------------"
@@ -24,15 +29,37 @@ cd $SCRIPT_DIR/terraform
 terraform init
 terraform plan
 terraform apply
+CLUSTER_NAME=`terraform output cluster_name | tr -d '"'`
+CLUSTER_REGION=`terraform output cluster_region | tr -d '"'`
+CLUSTER_PROJECT=`terraform output cluster_project | tr -d '"'`
 
-echo "- Beginning Kubernetes"
+echo "- Beginning Kubernetes operations"
+echo "CLUSTER: $CLUSTER_NAME"
+echo "REGION: $CLUSTER_REGION"
+echo "PROJECT: $CLUSTER_PROJECT"
+
 cd $SCRIPT_DIR/kubernetes
-gcloud container clusters get-credentials alex-bush-gke-cluster --region us-central1 --project pangeo-forge-bakery-gcp
+gcloud container clusters get-credentials $CLUSTER_NAME --region $CLUSTER_REGION --project $CLUSTER_PROJECT
+CONTEXT_NAME="gke_${CLUSTER_PROJECT}_${CLUSTER_REGION}_${CLUSTER_NAME}"
+kubectl config use-context $CONTEXT_NAME
 FILES="$SCRIPT_DIR/kubernetes/*.yaml"
+
+kubectl get ns | grep $BAKERY_NAMESPACE > /dev/null 2>&1
+if [ $? -eq 1 ]; then
+  echo "- Namespace \"$BAKERY_NAMESPACE\" does not exist, creating"
+  apply_file_with_subst "$SCRIPT_DIR/kubernetes/prefect-agent.namespace.yaml"
+else
+  echo "- Namespace \"$BAKERY_NAMESPACE\" already exists, not creating"
+fi
+
 for file in $FILES
 do
-  echo "Processing $file file...".
-  cat $file | envsubst | kubectl apply -f -
+  echo "Processing $file file..."
+  echo $file | grep namespace
+  IS_NAMESPACE=$?
+  if [ $IS_NAMESPACE -eq 1 ]; then
+    apply_file_with_subst $file
+  fi
 done
 echo "------------------------------------------"
 echo "                All done!                 "
