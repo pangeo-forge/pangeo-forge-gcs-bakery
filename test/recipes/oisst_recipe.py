@@ -72,7 +72,7 @@ def register_recipe(recipe: BaseRecipe):
 #         connection_string=os.environ["FLOW_STORAGE_CONNECTION_STRING"],
 #     )
     flow.storage = GCS(
-        bucket="alex-test-bucket"
+        bucket="alex-bush-test-bucket"
     )
     flow.run_config = KubernetesRun(
         job_template=job_template,
