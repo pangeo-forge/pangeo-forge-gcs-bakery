@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 function cleanup {
   echo "Removing storage key"
