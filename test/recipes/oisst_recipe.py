@@ -33,17 +33,17 @@ def set_log_level(func):
 def register_recipe(recipe: BaseRecipe):
     fs_remote = GCSFileSystem(
         project='pangeo-forge-bakery-gcp',
-        token='cloud'
+        bucket='pangeo-forge-bakery-bucket',
     )
     target = FSSpecTarget(
         fs_remote,
-        root_path=f"alex-bush-test-bucket/target",
+        root_path=f"pangeo-forge-bakery-bucket/target",
     )
     recipe.target = target
     recipe.input_cache = CacheFSSpecTarget(
         fs_remote,
         root_path=(
-            f"alex-bush-test-bucket/cache"
+            f"pangeo-forge-bakery-bucket/cache"
         ),
     )
     recipe.metadata_cache = target
@@ -69,7 +69,7 @@ def register_recipe(recipe: BaseRecipe):
 
     flow_name = "test-noaa-flow"
     flow.storage = GCS(
-        bucket="alex-bush-test-bucket"
+        bucket="pangeo-forge-bakery-bucket"
     )
     flow.run_config = KubernetesRun(
         job_template=job_template,

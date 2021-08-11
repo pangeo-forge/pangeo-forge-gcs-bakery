@@ -46,7 +46,7 @@ spec:
             - name: DELETE_FINISHED_JOBS
               value: 'False'
             - name: GOOGLE_APPLICATION_CREDENTIALS
-              value: "/opt/googlecreds.json"
+              value: "/opt/storage_key.json"
           image: ${BAKERY_IMAGE}
           imagePullPolicy: Always
           livenessProbe:

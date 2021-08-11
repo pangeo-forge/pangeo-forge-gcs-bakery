@@ -1,14 +1,14 @@
 data "google_project" "project" {
 }
 
-resource "google_service_account" "default" {
+resource "google_service_account" "cluster" {
   account_id   = "alex-b-test-acct"
   display_name = "Alex Bush Test Service Account"
 }
 
 resource "google_container_cluster" "primary" {
   name     = "alex-bush-gke-cluster"
-  location = "us-central1"
+  location = "us-west1-a"
 
   # We can't create a cluster with no node pool defined, but we want to only use
   # separately managed node pools. So we create the smallest possible default
@@ -19,16 +19,20 @@ resource "google_container_cluster" "primary" {
 
 resource "google_container_node_pool" "primary_preemptible_nodes" {
   name       = "alex-bush-node-pool"
-  location   = "us-central1"
+  location   = "us-west1-a"
   cluster    = google_container_cluster.primary.name
   node_count = 1
+  autoscaling {
+    max_node_count = 3
+    min_node_count = 1
+  }
 
   node_config {
     preemptible  = true
-    machine_type = "e2-medium"
+    machine_type = "e2-standard-4"
 
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-    service_account = google_service_account.default.email
+    service_account = google_service_account.cluster.email
     oauth_scopes    = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]

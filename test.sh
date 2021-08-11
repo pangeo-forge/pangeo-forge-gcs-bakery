@@ -4,6 +4,8 @@ FULL_PATH=$(realpath $0)
 ROOT_PATH=$(dirname $FULL_PATH)
 docker run -it --rm \
     -v $ROOT_PATH/test/recipes/$FLOW_FILE:/opt/$FLOW_FILE \
+    -v $ROOT_PATH/kubernetes/storage_key.json:/opt/storage_key.json \
+    -e GOOGLE_APPLICATION_CREDENTIALS="/opt/storage_key.json" \
     -e FLOW_STORAGE_CONNECTION_STRING \
     -e FLOW_STORAGE_CONTAINER \
     -e FLOW_CACHE_CONTAINER \
