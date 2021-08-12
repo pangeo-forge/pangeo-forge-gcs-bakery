@@ -74,7 +74,8 @@ else
   echo "- Namespace \"$BAKERY_NAMESPACE\" already exists, not creating"
 fi
 
-kubectl create secret generic --from-file=$SCRIPT_DIR/kubernetes/storage_key.json -n $BAKERY_NAMESPACE google-credentials
+kubectl delete secret  -n $BAKERY_NAMESPACE google-credentials --ignore-not-found
+kubectl create secret generic  -n $BAKERY_NAMESPACE google-credentials --from-file=$SCRIPT_DIR/kubernetes/storage_key.json
 
 for file in $FILES
 do
