@@ -52,7 +52,7 @@ CLUSTER_REGION=`terraform output cluster_region | tr -d '"'`
 CLUSTER_PROJECT=`terraform output cluster_project | tr -d '"'`
 
 echo "- Beginning storage operations"
-gcloud projects add-iam-policy-binding $CLUSTER_PROJECT --member="serviceAccounech $$STORAGE_SERVICE_ACCOUNT_NAME@$CLUSTER_PROJECT.iam.gserviceaccount.com" --role="roles/viewer"
+gcloud projects add-iam-policy-binding $CLUSTER_PROJECT --member="serviceAccount:$STORAGE_SERVICE_ACCOUNT_NAME@$CLUSTER_PROJECT.iam.gserviceaccount.com" --role="roles/viewer"
 gcloud iam service-accounts keys create $SCRIPT_DIR/kubernetes/storage_key.json --iam-account=$STORAGE_SERVICE_ACCOUNT_NAME@$CLUSTER_PROJECT.iam.gserviceaccount.com
 
 echo "- Beginning Kubernetes operations"
