@@ -27,6 +27,12 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
     min_node_count = 1
   }
 
+  lifecycle {
+    ignore_changes = [
+      initial_node_count
+    ]
+  }
+
   node_config {
     preemptible  = true
     machine_type = "e2-standard-4"
