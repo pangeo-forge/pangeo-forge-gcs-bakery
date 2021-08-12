@@ -13,7 +13,7 @@ data "google_iam_policy" "admin" {
   binding {
     role = "roles/storage.admin"
     members = [
-      "serviceAccount:${google_service_account.storage.email}",
+      "serviceAccount:${google_service_account.cluster.email}",
       "user:alexbush@developmentseed.org"
     ]
   }

@@ -15,6 +15,13 @@ resource "google_container_cluster" "primary" {
   # node pool and immediately delete it.
   remove_default_node_pool = true
   initial_node_count       = 1
+
+  lifecycle {
+    ignore_changes = [
+      initial_node_count,
+      node_config
+    ]
+  }
 }
 
 resource "google_container_node_pool" "primary_preemptible_nodes" {
@@ -29,7 +36,8 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
 
   lifecycle {
     ignore_changes = [
-      initial_node_count
+      initial_node_count,
+      node_config
     ]
   }
 
