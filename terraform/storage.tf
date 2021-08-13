@@ -5,14 +5,15 @@ resource "google_storage_bucket" "storage-bucket" {
 }
 
 resource "google_service_account" "storage" {
-  account_id   = "alexs-test-number-2"
-  display_name = "Alex Bush Test Service Account"
+  account_id   = var.storage_service_account_name
+  display_name = "PangeoForge GCS Bakery Storage Service Account"
 }
 
 data "google_iam_policy" "admin" {
   binding {
     role = "roles/storage.admin"
     members = [
+      "serviceAccount:${google_service_account.storage.email}",
       "serviceAccount:${google_service_account.cluster.email}",
       "user:alexbush@developmentseed.org"
     ]

@@ -13,6 +13,7 @@ function apply_file_with_subst {
 
 echo "------------------------------------------"
 echo "       Pangeo Forge - GCE bakery"
+echo "       ----  INSTALL SCRIPT ----"
 echo "------------------------------------------"
 echo "- Checking prerequisites..."
 OK=1
@@ -36,6 +37,11 @@ if [ -z "${STORAGE_SERVICE_ACCOUNT_NAME}" ]; then
   OK=0
 fi
 
+if [ -z "${CLUSTER_SERVICE_ACCOUNT_NAME}" ]; then
+  echo "[X] - CLUSTER_SERVICE_ACCOUNT_NAME is not set"
+  OK=0
+fi
+
 if [ $OK == 0 ]; then
   exit 1
 fi
@@ -44,6 +50,8 @@ SCRIPT_DIR=`dirname $(realpath $0)`
 
 echo "- Beginning Terraform"
 cd $SCRIPT_DIR/terraform
+export TF_VAR_storage_service_account_name=$STORAGE_SERVICE_ACCOUNT_NAME
+export TF_VAR_cluster_service_account_name=$CLUSTER_SERVICE_ACCOUNT_NAME
 terraform init
 terraform plan
 terraform apply
@@ -52,6 +60,7 @@ CLUSTER_REGION=`terraform output cluster_region | tr -d '"'`
 CLUSTER_PROJECT=`terraform output cluster_project | tr -d '"'`
 
 echo "- Beginning storage operations"
+
 gcloud projects add-iam-policy-binding $CLUSTER_PROJECT --member="serviceAccount:$STORAGE_SERVICE_ACCOUNT_NAME@$CLUSTER_PROJECT.iam.gserviceaccount.com" --role="roles/viewer"
 gcloud iam service-accounts keys create $SCRIPT_DIR/kubernetes/storage_key.json --iam-account=$STORAGE_SERVICE_ACCOUNT_NAME@$CLUSTER_PROJECT.iam.gserviceaccount.com
 
