@@ -1,4 +1,22 @@
 #!/bin/bash
+function cleanup {
+  echo "Removing diffs"
+  rm -f /tmp/before
+  rm -f /tmp/after
+}
+
+trap cleanup EXIT
+
+echo "------------------------------------------"
+echo "       Pangeo Forge - GCE bakery"
+echo "       ----  PREPARE SCRIPT ----"
+echo "------------------------------------------"
+
+echo ".env path set as $1/.env"
+env > /tmp/before
 set -o allexport
-[[ -f .env ]] && source .env
+[[ -f $1/.env ]] && source $1/.env
 set +o allexport
+env > /tmp/after
+echo "This script added the following variables:"
+diff -y before after | grep '>'

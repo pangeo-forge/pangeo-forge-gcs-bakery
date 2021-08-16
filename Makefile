@@ -1,6 +1,6 @@
 .PHONY: init
 init:
-	/bin/bash -c "source scripts/prepare.sh"
+	scripts/prepare.sh $$(pwd)
 
 .PHONY: install
         install:
