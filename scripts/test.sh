@@ -74,5 +74,6 @@ docker run -it --rm \
     -e PREFECT__CLOUD__AGENT__LABELS \
     -e PREFECT_PROJECT \
     -e PREFECT__CLOUD__AUTH_TOKEN \
+    -e PROJECT_NAME \
     $BAKERY_IMAGE python3 /opt/$FLOW_FILE
 echo "Test running"
