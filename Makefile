@@ -2,7 +2,7 @@ SHELL := /bin/bash
 
 .PHONY: init
 init:
-	gcloud auth login
+	gcloud auth application-default login
 
 .PHONY: install
 install:

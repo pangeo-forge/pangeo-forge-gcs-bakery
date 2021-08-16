@@ -1,3 +1,10 @@
 - Remote state storage
-- Makefile
-- 
+- Test test with new makefile
+- Add option to automatically JFDI
+- Test destroy with new makefile
+- Document how to use makefile
+- Document prerequisites
+- Document the env file
+- Check tags worked
+- Add tags to storage
+- Document that tags MUST BE LOWER CASE, dash and underscore or numbers
