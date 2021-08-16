@@ -11,12 +11,12 @@ function apply_file_with_subst {
   cat $1 | envsubst | kubectl apply -f -
 }
 
-source $(pwd)/scripts/prepare.sh $(pwd)
-
 echo "------------------------------------------"
 echo "       Pangeo Forge - GCE bakery"
 echo "       ----  INSTALL SCRIPT ----"
 echo "------------------------------------------"
+echo "- Running prepare script"
+source $(pwd)/scripts/prepare.sh $(pwd)
 echo "- Checking prerequisites..."
 OK=1
 if [ -z "${BAKERY_NAMESPACE}" ]; then
