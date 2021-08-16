@@ -14,9 +14,8 @@ echo "------------------------------------------"
 
 echo ".env path set as $1/.env"
 env > /tmp/before
-set -o allexport
+set -a
 [[ -f $1/.env ]] && source $1/.env
-set +o allexport
 env > /tmp/after
 echo "This script added the following variables:"
 diff -y /tmp/before /tmp/after | grep '>'

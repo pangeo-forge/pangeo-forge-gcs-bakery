@@ -1,9 +1,7 @@
-.PHONY: init
-init:
-	scripts/prepare.sh $$(pwd)
+SHELL := /bin/bash
 
 .PHONY: install
-        install:
+install:
 	scripts/install.sh
 
 .PHONY: destroy

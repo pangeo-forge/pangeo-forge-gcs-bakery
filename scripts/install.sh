@@ -11,6 +11,8 @@ function apply_file_with_subst {
   cat $1 | envsubst | kubectl apply -f -
 }
 
+source $(pwd)/scripts/prepare.sh $(pwd)
+
 echo "------------------------------------------"
 echo "       Pangeo Forge - GCE bakery"
 echo "       ----  INSTALL SCRIPT ----"
@@ -59,7 +61,7 @@ fi
 SCRIPT_DIR=`dirname $(realpath $0)`
 
 echo "- Beginning Terraform"
-cd $SCRIPT_DIR/terraform
+cd $(pwd)/terraform
 export TF_VAR_storage_service_account_name=$STORAGE_SERVICE_ACCOUNT_NAME
 export TF_VAR_cluster_service_account_name=$CLUSTER_SERVICE_ACCOUNT_NAME
 terraform init
