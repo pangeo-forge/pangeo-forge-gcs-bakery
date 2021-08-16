@@ -7,7 +7,7 @@ terraform {
   }
 }
 provider "google" {
-  project = "pangeo-forge-bakery-gcp"
+  project = var.project_name
   region = "us-central1"
   zone = "us-central1-c"
 }

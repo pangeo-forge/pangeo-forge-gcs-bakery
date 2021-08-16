@@ -3,6 +3,8 @@ echo "------------------------------------------"
 echo "       Pangeo Forge - GCE bakery"
 echo "       ----  DESTROY SCRIPT ----"
 echo "------------------------------------------"
+echo "- Running prepare script"
+source $(pwd)/scripts/prepare.sh $(pwd)
 echo "- Checking prerequisites..."
 OK=1
 if [ -z "${STORAGE_SERVICE_ACCOUNT_NAME}" ]; then
@@ -22,3 +24,9 @@ export TF_VAR_storage_service_account_name=$STORAGE_SERVICE_ACCOUNT_NAME
 export TF_VAR_cluster_service_account_name=$CLUSTER_SERVICE_ACCOUNT_NAME
 cd terraform
 terraform destroy
+
+
+echo "------------------------------------------"
+echo "            Destroy - All done!           "
+echo "------------------------------------------"
+exit 0

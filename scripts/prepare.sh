@@ -24,3 +24,6 @@ set -a
 env > /tmp/after
 echo "This script added the following variables:"
 diff -y /tmp/before /tmp/after | grep '>'
+echo "------------------------------------------"
+echo "            Prepare - All done!           "
+echo "------------------------------------------"

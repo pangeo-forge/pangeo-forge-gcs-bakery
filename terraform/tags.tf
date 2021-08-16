@@ -1,6 +1,6 @@
 locals {
-  tags = [
-    "Project=pangeo-forge-gcp-bakery",
-    "Client=TEST-TEST",
-  ]
+  tags = {
+    project = "pangeo-forge-gcp-bakery",
+    client = "test-test",
+  }
 }

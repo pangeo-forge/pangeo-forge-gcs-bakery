@@ -4,9 +4,25 @@ echo "------------------------------------------"
 echo "       Pangeo Forge - GCE bakery"
 echo "       ----  TEST SCRIPT ----"
 echo "------------------------------------------"
+FLOW_FILE=$1
+STORAGE_KEY=$2
 echo "- Running prepare script"
 source $(pwd)/scripts/prepare.sh $(pwd)
 echo "- Checking prerequisites..."
+OK=1
+if [ -z "${FLOW_FILE}" ]; then
+  echo "[X] - FLOW_FILE is not specified as 1st parameter"
+  OK=0
+else
+  echo "FLOW_FILE is set to ${FLOW_FILE}"
+fi
+
+if [ -z "${STORAGE_KEY}" ]; then
+  echo "[X] - STORAGE_KEY is not specified as 2nd parameter"
+  OK=0
+else
+  echo "STORAGE_KEY is set to ${STORAGE_KEY}"
+fi
 
 if [ -z "${BAKERY_IMAGE}" ]; then
   echo "[X] - BAKERY_IMAGE is not set"
@@ -36,17 +52,18 @@ else
   echo "PREFECT__CLOUD__AUTH_TOKEN is set to ${PREFECT__CLOUD__AUTH_TOKEN}"
 fi
 
-if [ $OK == 0 ]; then
+if [ "$OK" == "0" ]; then
   exit 1
 fi
 
-FLOW_FILE=$1
+echo "- Starting docker container"
 docker run -it --rm \
     -v $FLOW_FILE:/opt/$FLOW_FILE \
-    -v $ROOT_PATH/kubernetes/storage_key.json:/opt/storage_key.json \
+    -v $STORAGE_KEY:/opt/storage_key.json \
     -e GOOGLE_APPLICATION_CREDENTIALS="/opt/storage_key.json" \
     -e BAKERY_IMAGE \
     -e PREFECT__CLOUD__AGENT__LABELS \
     -e PREFECT_PROJECT \
     -e PREFECT__CLOUD__AUTH_TOKEN \
     $BAKERY_IMAGE python3 /opt/$FLOW_FILE
+echo "Test running"
