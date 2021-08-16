@@ -20,26 +20,36 @@ OK=1
 if [ -z "${BAKERY_NAMESPACE}" ]; then
   echo "[X] - BAKERY_NAMESPACE is not set"
   OK=0
+else
+  echo "BAKERY_NAMESPACE is set to ${BAKERY_NAMESPACE}"
 fi
 
 if [ -z "${BAKERY_IMAGE}" ]; then
   echo "[X] - BAKERY_IMAGE is not set"
   OK=0
+else
+  echo "BAKERY_IMAGE is set to ${BAKERY_IMAGE}"
 fi
 
 if [ -z "${PREFECT__CLOUD__AGENT__AUTH_TOKEN}" ]; then
   echo "[X] - PREFECT__CLOUD__AGENT__AUTH_TOKEN is not set"
   OK=0
+else
+  echo "PREFECT__CLOUD__AGENT__AUTH_TOKEN is set to ${PREFECT__CLOUD__AGENT__AUTH_TOKEN}"
 fi
 
 if [ -z "${STORAGE_SERVICE_ACCOUNT_NAME}" ]; then
   echo "[X] - STORAGE_SERVICE_ACCOUNT_NAME is not set"
   OK=0
+else
+  echo "STORAGE_SERVICE_ACCOUNT_NAME is set to ${STORAGE_SERVICE_ACCOUNT_NAME}"
 fi
 
 if [ -z "${CLUSTER_SERVICE_ACCOUNT_NAME}" ]; then
   echo "[X] - CLUSTER_SERVICE_ACCOUNT_NAME is not set"
   OK=0
+else
+  echo "CLUSTER_SERVICE_ACCOUNT_NAME is set to ${CLUSTER_SERVICE_ACCOUNT_NAME}"
 fi
 
 if [ $OK == 0 ]; then
