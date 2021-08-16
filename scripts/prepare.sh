@@ -11,8 +11,13 @@ echo "------------------------------------------"
 echo "       Pangeo Forge - GCE bakery"
 echo "       ----  PREPARE SCRIPT ----"
 echo "------------------------------------------"
-
+echo "- Checking prerequisites..."
 echo ".env path set as $1/.env"
+if [[ ! -f $1/.env ]]; then
+  echo ".env file not found"
+  exit 1
+fi
+
 env > /tmp/before
 set -a
 [[ -f $1/.env ]] && source $1/.env
