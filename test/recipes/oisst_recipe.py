@@ -31,7 +31,7 @@ def set_log_level(func):
 
 
 def register_recipe(recipe: BaseRecipe):
-    storage_name = {os.environ["STORAGE_NAME"]}
+    storage_name = os.environ["STORAGE_NAME"]
     fs_remote = GCSFileSystem(
         project= os.environ["PROJECT_NAME"],
         bucket= os.environ["STORAGE_NAME"],
