@@ -7,7 +7,7 @@ resource "google_service_account" "cluster" {
 }
 
 resource "google_container_cluster" "primary" {
-  name     = "alex-bush-gke-cluster"
+  name     = var.cluster_name
   location = "us-west1-a"
   project = var.project_name
 

@@ -1,5 +1,5 @@
 resource "google_storage_bucket" "storage-bucket" {
-  name          = "pangeo-forge-bakery-bucket"
+  name          = var.storage_name
   location      = "us"
   force_destroy = true
 }

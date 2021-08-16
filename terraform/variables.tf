@@ -7,3 +7,9 @@ variable "cluster_service_account_name" {
 variable "project_name" {
   type = string
 }
+variable "storage_name" {
+  type = string
+}
+variable "cluster_name" {
+  type = string
+}
