@@ -9,6 +9,7 @@ resource "google_service_account" "cluster" {
 resource "google_container_cluster" "primary" {
   name     = "alex-bush-gke-cluster"
   location = "us-west1-a"
+  project = var.project_name
 
   # We can't create a cluster with no node pool defined, but we want to only use
   # separately managed node pools. So we create the smallest possible default
@@ -64,5 +65,5 @@ output "cluster_region" {
 }
 
 output "cluster_project" {
-  value = "pangeo-forge-bakery-gcp"
+  value = var.project_name
 }

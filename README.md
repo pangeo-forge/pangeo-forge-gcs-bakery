@@ -16,11 +16,13 @@ You will need:
 - Make
   - Depends on your distro of linux. Please see your disto docs.
 - Kubectl
+  - https://kubernetes.io/docs/tasks/tools/
 ## GCP Cloud project
   need a project set up with these APIs enabled:
 - Kubernetes Engine API
 # Using this repo
 ## .env file
+- Fill it out with your own values
 ## Initialising
 
 ## Updating
