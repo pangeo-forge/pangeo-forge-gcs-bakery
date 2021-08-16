@@ -96,7 +96,7 @@ else
 fi
 
 kubectl delete secret  -n $BAKERY_NAMESPACE google-credentials --ignore-not-found
-kubectl create secret generic  -n $BAKERY_NAMESPACE google-credentials --from-file=$SCRIPT_DIR/kubernetes/storage_key.json
+kubectl create secret generic  -n $BAKERY_NAMESPACE google-credentials --from-file=$ROOT/kubernetes/storage_key.json
 
 for file in $FILES
 do
