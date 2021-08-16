@@ -48,7 +48,7 @@ else
   echo "CLUSTER_SERVICE_ACCOUNT_NAME is set to ${CLUSTER_SERVICE_ACCOUNT_NAME}"
 fi
 
-if [ -z "${$PROJECT_NAME}" ]; then
+if [ -z "${PROJECT_NAME}" ]; then
   echo "[X] - $PROJECT_NAME is not set"
   OK=0
 else
