@@ -52,9 +52,18 @@ else
   echo "PREFECT__CLOUD__AUTH_TOKEN is set to ${PREFECT__CLOUD__AUTH_TOKEN}"
 fi
 
-if [ "$OK" == "0" ]; then
+if [ -z "${PROJECT_NAME}" ]; then
+  echo "[X] - PROJECT_NAME is not set"
+  OK=0
+else
+  echo "PROJECT_NAME is set to ${PROJECT_NAME}"
+fi
+
+if [ $OK == 0 ]; then
   exit 1
 fi
+echo "- Beginning gCloud init"
+gcloud config set project $PROJECT_NAME
 
 echo "- Starting docker container"
 docker run -it --rm \

@@ -17,6 +17,11 @@ You will need:
   - Depends on your distro of linux. Please see your disto docs.
 - Kubectl
   - https://kubernetes.io/docs/tasks/tools/
+- docker
+  - https://docs.docker.com/get-docker/
+  - ensure you are in the docker group
+  - groupadd -aG docker
+  - reboot
 ## GCP Cloud project
   need a project set up with these APIs enabled:
 - Kubernetes Engine API
