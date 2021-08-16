@@ -19,4 +19,4 @@ set -o allexport
 set +o allexport
 env > /tmp/after
 echo "This script added the following variables:"
-diff -y before after | grep '>'
+diff -y /tmp/before /tmp/after | grep '>'
