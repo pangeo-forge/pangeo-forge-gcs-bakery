@@ -49,7 +49,7 @@ else
 fi
 
 if [ -z "${PROJECT_NAME}" ]; then
-  echo "[X] - $PROJECT_NAME is not set"
+  echo "[X] - PROJECT_NAME is not set"
   OK=0
 else
   echo "$PROJECT_NAME is set to ${$PROJECT_NAME}"
