@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "------------------------------------------"
 echo "       Pangeo Forge - GCE bakery"

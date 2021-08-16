@@ -4,7 +4,6 @@ data "google_project" "project" {
 resource "google_service_account" "cluster" {
   account_id   = var.cluster_service_account_name
   display_name = "PangeoForge GCS Bakery Cluster Service Account"
-  tags = local.tags
 }
 
 resource "google_container_cluster" "primary" {
@@ -16,7 +15,6 @@ resource "google_container_cluster" "primary" {
   # node pool and immediately delete it.
   remove_default_node_pool = true
   initial_node_count       = 1
-  tags = local.tags
 
   lifecycle {
     ignore_changes = [
@@ -31,7 +29,6 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   location   = "us-west1-a"
   cluster    = google_container_cluster.primary.name
   node_count = 1
-  tags = local.tags
   autoscaling {
     max_node_count = 3
     min_node_count = 1
@@ -45,6 +42,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   }
 
   node_config {
+    tags = flatten(local.tags)
     preemptible  = true
     machine_type = "e2-standard-4"
 
@@ -61,7 +59,6 @@ resource "google_container_node_pool" "primary_preemptible_nodes2" {
   location   = "us-east1-a"
   cluster    = google_container_cluster.primary.name
   node_count = 1
-  tags = local.tags
   autoscaling {
     max_node_count = 3
     min_node_count = 1
