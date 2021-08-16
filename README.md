@@ -28,10 +28,23 @@ You will need:
 # Using this repo
 ## .env file
 - Fill it out with your own values
+## Stages
+  - init
+    - authenticates with Google Cloud to setup the default application credentials for use by later stages
+  - install
+    - provisions the cluster and storage infrastructure in Google Cloud
+  - test
+    - registers a test recipe against the prefect cloud instance for use by your agent(s)
+  - destroy
+    - destroys all infrastructure from the last run of "make install"
 ## Initialising
+TODO
 
 ## Updating
+TODO
 
 ## Testing
+TODO
 
 ## Destroying
+TODO
