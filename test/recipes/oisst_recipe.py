@@ -32,7 +32,7 @@ def set_log_level(func):
 
 def register_recipe(recipe: BaseRecipe):
     fs_remote = GCSFileSystem(
-        project='pangeo-forge-bakery-gcp',
+        project= os.environ["PROJECT_NAME"],
         bucket='pangeo-forge-bakery-bucket',
     )
     target = FSSpecTarget(
