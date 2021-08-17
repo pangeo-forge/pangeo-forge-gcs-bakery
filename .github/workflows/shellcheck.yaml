@@ -1,9 +1,6 @@
-on:
-  push:
-    branch:
-      - main
+name: shellcheck-lint
 
-name: 'Trigger: Push action'
+on: [push, pull_request]
 
 jobs:
   shellcheck:
