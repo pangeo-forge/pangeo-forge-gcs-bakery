@@ -3,6 +3,7 @@ SHELL := /bin/bash
 .PHONY: init
 init:
 	gcloud auth application-default login
+	terraform init
 
 .PHONY: install
 install:
