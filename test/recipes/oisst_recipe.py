@@ -61,6 +61,7 @@ def register_recipe(recipe: BaseRecipe):
           annotations:
             "cluster-autoscaler.kubernetes.io/safe-to-evict": "false"
         spec:
+          ttlSecondsAfterFinished: 100
           template:
             spec:
               containers:
