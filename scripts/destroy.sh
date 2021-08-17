@@ -4,7 +4,8 @@ echo "       Pangeo Forge - GCE bakery"
 echo "       ----  DESTROY SCRIPT ----"
 echo "------------------------------------------"
 echo "- Running prepare script"
-source $(pwd)/scripts/prepare.sh $(pwd)
+source "$(pwd)/scripts/prepare.sh $(pwd)"
+
 echo "- Checking prerequisites..."
 OK=1
 if [ -z "${STORAGE_SERVICE_ACCOUNT_NAME}" ]; then
@@ -31,7 +32,6 @@ else
   echo "STORAGE_NAME is set to ${STORAGE_NAME}"
 fi
 
-
 if [ -z "${CLUSTER_NAME}" ]; then
   echo "[X] - CLUSTER_NAME is not set"
   OK=0
@@ -47,7 +47,8 @@ export TF_VAR_cluster_service_account_name=$CLUSTER_SERVICE_ACCOUNT_NAME
 export TF_VAR_storage_name=$STORAGE_NAME
 export TF_VAR_cluster_name=$CLUSTER_NAME
 export TF_VAR_project_name=$PROJECT_NAME
-cd terraform
+
+cd terraform || exit
 terraform destroy
 
 
