@@ -3,10 +3,9 @@ name: terraform-lint
 on: [push, pull_request]
 
 jobs:
-  delivery:
-
+  terraform-lint:
+    name: Terraform Lint
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out code
         uses: actions/checkout@main
