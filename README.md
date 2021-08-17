@@ -28,6 +28,7 @@ You will need:
 
 ## Using this repo
 ### .env file
+- This will setup the relevant environment variables to install the bakery
 - Fill it out with your own values
 ### Stages
 - init
@@ -66,3 +67,4 @@ You will need:
 
 ## Tagging
 - To apply tags to a resource, add them in `terraform/tags.tf`
+- Tags MUST BE lowercase letters,dash,underscore or numbers
