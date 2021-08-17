@@ -1,4 +1,5 @@
-#Pangeo Forge Google Cloud Bakery
+# Pangeo Forge Google Cloud Bakery
+
 This repository serves as the provider of a Terraform and Kubernetes Application which deploys the necessary infrastructure to provide a pangeo-forge Bakery on Google Cloud
 
 ## Prerequisites
@@ -62,3 +63,6 @@ You will need:
 ## Gotchas
 - The Prefect agent pod in the cluster uses the cluster's own Google Managed Identity (CLUSTER_STORAGE_ACCOUNT) to access storage
 - The Prefect flow registration uses the STORAGE_ACCOUNT to access the storage and plant the files
+
+## Tagging
+- To apply tags to a resource, add them in `terraform/tags.tf`
