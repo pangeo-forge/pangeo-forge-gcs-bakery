@@ -17,6 +17,9 @@ You will need:
   - ensure you are in the docker group
   - groupadd -aG docker
   - reboot
+- Lens (The Kubernetes IDE) - Optional
+  - https://k8slens.dev/#download
+  - Optional but makes debugging much much easier
 ### GCP Cloud project
   need a project set up with these APIs enabled:
 - Kubernetes Engine API
