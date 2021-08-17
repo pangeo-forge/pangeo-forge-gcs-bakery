@@ -31,7 +31,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   name       = "alex-bush-node-pool"
   location   = "us-west1-a"
   cluster    = google_container_cluster.primary.name
-  node_count = 1
+  node_count = 2
   autoscaling {
     max_node_count = 3
     min_node_count = 1

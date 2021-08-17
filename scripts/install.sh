@@ -103,7 +103,9 @@ echo "PROJECT: $CLUSTER_PROJECT"
 cd $ROOT/kubernetes
 gcloud container clusters get-credentials $CLUSTER_NAME --region $CLUSTER_REGION --project $CLUSTER_PROJECT
 CONTEXT_NAME="gke_${CLUSTER_PROJECT}_${CLUSTER_REGION}_${CLUSTER_NAME}"
+set -e
 kubectl config use-context $CONTEXT_NAME
+set +e
 FILES="*.yaml"
 
 kubectl get ns | grep $BAKERY_NAMESPACE > /dev/null 2>&1
