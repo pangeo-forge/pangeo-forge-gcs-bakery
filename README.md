@@ -52,7 +52,7 @@ You will need:
 ### Updating
 1. Run `make init` to ensure you are logged in to Google Cloud
 2. Run `make install` to re-run terraform against your environment.
-   1. NOTE: The Terraform configuration is designed to be idempotent, so you should normally see "no changes to be applied"
+   1. NOTE: The Terraform configuration is designed to be idempotent, so you should normally see "No changes. Your infrastructure matches the configuration."
 3. Run `make test` to register the test flow.
 
 ### Testing
