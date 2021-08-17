@@ -38,8 +38,9 @@ You will need:
 ### Initialising the bakery
 1. Run `make init` to log in to Google Cloud
 2. Run `make install` to set up the infrastructure against your Google Cloud account
-3. Run `make test` to register the test flow against your new Prefect agent
-4. Test the flow using the prefect cloud UI
+3. Get a cup of tea whilst Prefect sorts itself out, this may take about 10 minutes.
+4. Run `make test` to register the test flow against your new Prefect agent
+5. Test the flow using the prefect cloud UI
 
 ### Updating
 1. Run `make init` to ensure you are logged in to Google Cloud
