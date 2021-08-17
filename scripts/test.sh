@@ -5,9 +5,10 @@ echo "       Pangeo Forge - GCE bakery"
 echo "       ----  TEST SCRIPT ----"
 echo "------------------------------------------"
 FLOW_FILE=$1
+FLOW_FILENAME=$(basename "$1")
 STORAGE_KEY=$2
 echo "- Running prepare script"
-source "$(pwd)/scripts/prepare.sh $(pwd)"
+source "$(pwd)/scripts/prepare.sh" "$(pwd)"
 echo "- Checking prerequisites..."
 OK=1
 if [ -z "${FLOW_FILE}" ]; then
@@ -73,8 +74,8 @@ echo "- Beginning gCloud init"
 gcloud config set project "$PROJECT_NAME"
 
 echo "- Starting docker container"
-docker run -it --rm \
-    -v "$FLOW_FILE":"/opt/$FLOW_FILE" \
+docker run -it \
+    -v "$FLOW_FILE":"/opt/$FLOW_FILENAME" \
     -v "$STORAGE_KEY":/opt/storage_key.json \
     -e GOOGLE_APPLICATION_CREDENTIALS="/opt/storage_key.json" \
     -e BAKERY_IMAGE \
@@ -83,5 +84,5 @@ docker run -it --rm \
     -e PREFECT__CLOUD__AUTH_TOKEN \
     -e PROJECT_NAME \
     -e STORAGE_NAME \
-    "$BAKERY_IMAGE python3 /opt/$FLOW_FILE"
+    "$BAKERY_IMAGE" python3 "/opt/$FLOW_FILENAME"
 echo "Test running"
