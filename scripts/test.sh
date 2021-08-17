@@ -7,7 +7,7 @@ echo "------------------------------------------"
 FLOW_FILE=$1
 STORAGE_KEY=$2
 echo "- Running prepare script"
-source $(pwd)/scripts/prepare.sh $(pwd)
+source "$(pwd)/scripts/prepare.sh $(pwd)"
 echo "- Checking prerequisites..."
 OK=1
 if [ -z "${FLOW_FILE}" ]; then
@@ -70,12 +70,12 @@ if [ $OK == 0 ]; then
   exit 1
 fi
 echo "- Beginning gCloud init"
-gcloud config set project $PROJECT_NAME
+gcloud config set project "$PROJECT_NAME"
 
 echo "- Starting docker container"
 docker run -it --rm \
-    -v $FLOW_FILE:/opt/$FLOW_FILE \
-    -v $STORAGE_KEY:/opt/storage_key.json \
+    -v "$FLOW_FILE":"/opt/$FLOW_FILE" \
+    -v "$STORAGE_KEY":/opt/storage_key.json \
     -e GOOGLE_APPLICATION_CREDENTIALS="/opt/storage_key.json" \
     -e BAKERY_IMAGE \
     -e PREFECT__CLOUD__AGENT__LABELS \
@@ -83,5 +83,5 @@ docker run -it --rm \
     -e PREFECT__CLOUD__AUTH_TOKEN \
     -e PROJECT_NAME \
     -e STORAGE_NAME \
-    $BAKERY_IMAGE python3 /opt/$FLOW_FILE
+    "$BAKERY_IMAGE python3 /opt/$FLOW_FILE"
 echo "Test running"
