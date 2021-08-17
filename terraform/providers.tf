@@ -11,3 +11,9 @@ provider "google" {
   region  = "us-central1"
   zone    = "us-central1-c"
 }
+terraform {
+  backend "gcs" {
+    bucket = "terraform-tfstate-gcp"
+    prefix = "terraform/state"
+  }
+}
