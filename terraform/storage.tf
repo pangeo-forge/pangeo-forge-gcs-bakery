@@ -21,6 +21,6 @@ data "google_iam_policy" "admin" {
 }
 
 resource "google_storage_bucket_iam_policy" "policy" {
-  bucket = google_storage_bucket.storage-bucket.name
+  bucket      = google_storage_bucket.storage-bucket.name
   policy_data = data.google_iam_policy.admin.policy_data
 }
