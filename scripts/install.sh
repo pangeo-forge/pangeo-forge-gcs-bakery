@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 function apply_file_with_subst {
   cat $1 | envsubst | kubectl apply -f -
