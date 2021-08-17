@@ -4,7 +4,7 @@ echo "       Pangeo Forge - GCE bakery"
 echo "       ----  DESTROY SCRIPT ----"
 echo "------------------------------------------"
 echo "- Running prepare script"
-source "$(pwd)/scripts/prepare.sh $(pwd)"
+source "$(pwd)/scripts/prepare.sh" "$(pwd)"
 
 echo "- Checking prerequisites..."
 OK=1
