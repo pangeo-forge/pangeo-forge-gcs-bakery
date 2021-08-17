@@ -2,7 +2,7 @@
 set -e
 
 function apply_file_with_subst {
-  cat $1 | envsubst | kubectl apply -f -
+  envsubst < "$1" | kubectl apply -f -
 }
 
 ROOT=$(pwd)
@@ -11,7 +11,7 @@ echo "       Pangeo Forge - GCE bakery"
 echo "       ----  INSTALL SCRIPT ----"
 echo "------------------------------------------"
 echo "- Running prepare script"
-source $ROOT/scripts/prepare.sh $ROOT
+source "$ROOT/scripts/prepare.sh" "$ROOT"
 echo "- Checking prerequisites..."
 OK=1
 if [ -z "${BAKERY_NAMESPACE}" ]; then
@@ -76,39 +76,39 @@ if [ $OK == 0 ]; then
   exit 1
 fi
 echo "- Beginning gCloud init"
-gcloud config set project $PROJECT_NAME
+gcloud config set project "$PROJECT_NAME"
 echo "- Beginning Terraform"
-cd $ROOT/terraform
-export TF_VAR_storage_service_account_name=$STORAGE_SERVICE_ACCOUNT_NAME
-export TF_VAR_cluster_service_account_name=$CLUSTER_SERVICE_ACCOUNT_NAME
-export TF_VAR_storage_name=$STORAGE_NAME
-export TF_VAR_cluster_name=$CLUSTER_NAME
-export TF_VAR_project_name=$PROJECT_NAME
+cd "$ROOT/terraform"
+export TF_VAR_storage_service_account_name="$STORAGE_SERVICE_ACCOUNT_NAME"
+export TF_VAR_cluster_service_account_name="$CLUSTER_SERVICE_ACCOUNT_NAME"
+export TF_VAR_storage_name="$STORAGE_NAME"
+export TF_VAR_cluster_name="$CLUSTER_NAME"
+export TF_VAR_project_name="$PROJECT_NAME"
 terraform init
 terraform plan
 terraform apply
-CLUSTER_NAME=`terraform output cluster_name | tr -d '"'`
-CLUSTER_REGION=`terraform output cluster_region | tr -d '"'`
-CLUSTER_PROJECT=`terraform output cluster_project | tr -d '"'`
+CLUSTER_NAME=$(terraform output cluster_name | tr -d '"')
+CLUSTER_REGION=$(terraform output cluster_region | tr -d '"')
+CLUSTER_PROJECT=$(terraform output cluster_project | tr -d '"')
 
 echo "- Beginning storage operations"
-gcloud projects add-iam-policy-binding $CLUSTER_PROJECT --member="serviceAccount:$STORAGE_SERVICE_ACCOUNT_NAME@$CLUSTER_PROJECT.iam.gserviceaccount.com" --role="roles/viewer"
-gcloud iam service-accounts keys create "$ROOT/kubernetes/storage_key.json" --iam-account=$STORAGE_SERVICE_ACCOUNT_NAME@$CLUSTER_PROJECT.iam.gserviceaccount.com
+gcloud projects add-iam-policy-binding "$CLUSTER_PROJECT" --member="serviceAccount:$STORAGE_SERVICE_ACCOUNT_NAME@$CLUSTER_PROJECT.iam.gserviceaccount.com" --role="roles/viewer"
+gcloud iam service-accounts keys create "$ROOT/kubernetes/storage_key.json" --iam-account="$STORAGE_SERVICE_ACCOUNT_NAME@$CLUSTER_PROJECT.iam.gserviceaccount.com"
 
 echo "- Beginning Kubernetes operations"
 echo "CLUSTER: $CLUSTER_NAME"
 echo "REGION: $CLUSTER_REGION"
 echo "PROJECT: $CLUSTER_PROJECT"
 
-cd $ROOT/kubernetes
-gcloud container clusters get-credentials $CLUSTER_NAME --region $CLUSTER_REGION --project $CLUSTER_PROJECT
+cd "$ROOT/kubernetes"
+gcloud container clusters get-credentials "$CLUSTER_NAME" --region "$CLUSTER_REGION" --project "$CLUSTER_PROJECT"
 CONTEXT_NAME="gke_${CLUSTER_PROJECT}_${CLUSTER_REGION}_${CLUSTER_NAME}"
 set -e
-kubectl config use-context $CONTEXT_NAME
+kubectl config use-context "$CONTEXT_NAME"
 set +e
 FILES="*.yaml"
 
-kubectl get ns | grep $BAKERY_NAMESPACE > /dev/null 2>&1
+kubectl get ns | grep "$BAKERY_NAMESPACE" > /dev/null 2>&1
 if [ $? -eq 1 ]; then
   echo "- Namespace \"$BAKERY_NAMESPACE\" does not exist, creating"
   apply_file_with_subst "$ROOT/kubernetes/prefect-agent.namespace.yaml"
@@ -116,16 +116,16 @@ else
   echo "- Namespace \"$BAKERY_NAMESPACE\" already exists, not creating"
 fi
 
-kubectl delete secret  -n $BAKERY_NAMESPACE google-credentials --ignore-not-found
-kubectl create secret generic  -n $BAKERY_NAMESPACE google-credentials --from-file=$ROOT/kubernetes/storage_key.json
+kubectl delete secret  -n "$BAKERY_NAMESPACE" google-credentials --ignore-not-found
+kubectl create secret generic  -n "$BAKERY_NAMESPACE" google-credentials --from-file="$ROOT/kubernetes/storage_key.json"
 
 for file in $FILES
 do
   echo "Processing $file file..."
-  echo $file | grep namespace
+  echo "$file" | grep namespace
   IS_NAMESPACE=$?
   if [ $IS_NAMESPACE -eq 1 ]; then
-    apply_file_with_subst $file
+    apply_file_with_subst "$file"
   fi
 done
 echo "------------------------------------------"
