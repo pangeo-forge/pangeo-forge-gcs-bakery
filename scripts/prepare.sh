@@ -20,7 +20,7 @@ fi
 
 env > /tmp/before
 set -a
-[[ -f $1/.env ]] && source $1/.env
+[[ -f $1/.env ]] && source "$1/.env"
 env > /tmp/after
 echo "This script added the following variables:"
 diff -y /tmp/before /tmp/after | grep '>'
