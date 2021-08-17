@@ -4,6 +4,8 @@ This repository serves as the provider of a Terraform and Kubernetes Application
 
 ## Prerequisites
 You will need:
+### GCP Buckets
+- A bucket for the terraform state, whose name is updated in `terraform/providers.tf`
 ### Tooling
 - Terraform
   - https://learn.hashicorp.com/tutorials/terraform/install-cli
