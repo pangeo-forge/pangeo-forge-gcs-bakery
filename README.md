@@ -64,8 +64,8 @@ You will need:
 2. Run `make destroy` to destroy any infrastructure instantiated by terraform in the install step.
 
 ## Gotchas
-- The Prefect agent pod in the cluster uses the cluster's own Google Managed Identity (CLUSTER_STORAGE_ACCOUNT) to access storage
-- The Prefect flow registration uses the STORAGE_ACCOUNT to access the storage and plant the files
+- The Prefect agent pod in the cluster uses the cluster's own Google Managed Identity (CLUSTER_SERVICE_ACCOUNT_NAME) to access storage
+- The Prefect flow registration uses the STORAGE_SERVICE_ACCOUNT_NAME to access the storage and plant the files
 
 ## Tagging
 - To apply tags to a resource, add them in `terraform/tags.tf`
