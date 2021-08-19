@@ -3,4 +3,5 @@
 /.idea
 *.tfstate.backup
 *.tfstate
+.env
 /kubernetes/storage_key.json
