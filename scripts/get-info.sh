@@ -9,6 +9,10 @@ echo "- Running kubernetes connector script"
 $ROOT/scripts/k8s-connect.sh
 echo "- Gathering data"
 mapfile -t < <(kubectl logs -n testgarry deployment/prefect-agent | sed -rn "s/\[([0-9]+-[0-9]+-[0-9]+) ([0-9]+:[0-9]+:[0-9]+).* agent \| Completed deployment of flow run (.*)/\1@\2-\3/p")
+if [ ${#MAPFILE[@]} == 0 ]; then
+  echo "No flow runs have been performed on this agent yet"
+  exit 1
+fi
 PS3="Select a run from the list:"
 select run in ${MAPFILE[@]}
 do
