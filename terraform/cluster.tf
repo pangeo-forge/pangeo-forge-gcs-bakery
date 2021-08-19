@@ -8,7 +8,7 @@ resource "google_service_account" "cluster" {
 
 resource "google_container_cluster" "primary" {
   name     = var.cluster_name
-  location = "us-west1-a"
+  location = var.cluster_region
   project  = var.project_name
 
   # We can't create a cluster with no node pool defined, but we want to only use
@@ -29,7 +29,7 @@ resource "google_container_cluster" "primary" {
 
 resource "google_container_node_pool" "primary_preemptible_nodes" {
   name       = "alex-bush-node-pool"
-  location   = "us-west1-a"
+  location   = var.cluster_region
   cluster    = google_container_cluster.primary.name
   node_count = 1
   autoscaling {
@@ -54,16 +54,4 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
       "https://www.googleapis.com/auth/cloud-platform"
     ]
   }
-}
-
-output "cluster_name" {
-  value = google_container_cluster.primary.name
-}
-
-output "cluster_region" {
-  value = google_container_cluster.primary.location
-}
-
-output "cluster_project" {
-  value = var.project_name
 }
