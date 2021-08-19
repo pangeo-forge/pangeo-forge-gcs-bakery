@@ -20,3 +20,7 @@ test:
 .PHONY: getinfo
 getinfo:
 	scripts/get-info.sh
+
+.PHONY: loki
+loki:
+	scripts/loki.sh
