@@ -60,6 +60,14 @@ You will need:
 1. Run `make test` to register the test flow against your new Prefect agent
 2. Test the flow using the prefect cloud UI
 
+### Debugging
+1. Run `make loki` to deploy loki to the cluster via helm if you haven't already
+   1. You will need to get helm(https://helm.sh/docs/intro/install/) to deploy loki to the cluster
+2. Get the info needed  to access the loki instance by using https://www.scaleway.com/en/docs/use-loki-to-manage-k8s-application-logs/
+3. Run `make getinfo` to see all the current flow runs on the prefect agent
+4. Pick the flow run you are interested in
+5. Use the provided information to query loki for the worker/scheduler logs you are interested in
+
 ### Destroying
 1. Run `make init` to ensure you are logged in to Google Cloud
 2. Run `make destroy` to destroy any infrastructure instantiated by terraform in the install step.

@@ -105,11 +105,10 @@ echo "REGION: $CLUSTER_REGION"
 echo "PROJECT: $PROJECT_NAME"
 
 cd "$ROOT/kubernetes"
-gcloud container clusters get-credentials "$CLUSTER_NAME" --region "$CLUSTER_REGION" --project "$PROJECT_NAME"
-CONTEXT_NAME="gke_${PROJECT_NAME}_${CLUSTER_REGION}_${CLUSTER_NAME}"
-set -e
-kubectl config use-context "$CONTEXT_NAME"
-set +e
+
+echo "- Running kubernetes connector script"
+$ROOT/scripts/k8s-connect.sh
+
 FILES="*.yaml"
 
 kubectl get ns | grep "$BAKERY_NAMESPACE" > /dev/null 2>&1
