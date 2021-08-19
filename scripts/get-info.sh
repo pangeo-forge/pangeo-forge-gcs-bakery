@@ -31,6 +31,10 @@ echo "Dask clusters spun up from job $JOB_ID for flow run $ID"
 echo "---------------------------------------------------------------------------------"
 LOGS=$(kubectl logs -n testgarry jobs/$JOB_ID)
 DASK_CLUSTER=$(echo $LOGS | sed -rn "s/.* The Dask dashboard is available at http:\/\/(.*).testgarry.*/\1/p")
+if [ -z $DASK_CLUSTER ]; then
+  echo "No dask clusters have been made by this flow yet"
+  exit 2
+fi
 echo $DASK_CLUSTER
 echo "---------------------------------------------------------------------------------"
 echo "Your loki search terms are:"

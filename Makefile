@@ -23,4 +23,4 @@ getinfo:
 
 .PHONY: loki
 loki:
-	scripts/loki.sh
+	scripts/loki.sh $$(pwd)

@@ -109,7 +109,6 @@ echo "- Running kubernetes connector script"
 set +e
 cd "$ROOT"
 $ROOT/scripts/k8s-connect.sh
-set -e
 cd "$ROOT/kubernetes"
 FILES="*.yaml"
 kubectl get ns | grep "$BAKERY_NAMESPACE" > /dev/null 2>&1
@@ -122,18 +121,16 @@ fi
 
 kubectl delete secret  -n "$BAKERY_NAMESPACE" google-credentials --ignore-not-found
 kubectl create secret generic  -n "$BAKERY_NAMESPACE" google-credentials --from-file="$ROOT/kubernetes/storage_key.json"
-
 for file in $FILES
 do
   echo "Processing $file file..."
-  set +e
   echo "$file" | grep namespace
   IS_NAMESPACE=$?
-  set -e
   if [ $IS_NAMESPACE -eq 1 ]; then
     apply_file_with_subst "$file"
   fi
 done
+set -e
 echo "------------------------------------------"
 echo "            Install - All done!           "
 echo "------------------------------------------"

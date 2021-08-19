@@ -1,5 +1,6 @@
 #!/bin/bash
 
+ROOT=$1
 echo "------------------------------------------"
 echo "       Pangeo Forge - GCE bakery"
 echo "       ----  LOKI INSTALLER ----"
