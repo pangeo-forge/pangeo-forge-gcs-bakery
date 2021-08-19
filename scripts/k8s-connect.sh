@@ -38,4 +38,3 @@ gcloud container clusters get-credentials "$CLUSTER_NAME" --region "$CLUSTER_REG
 CONTEXT_NAME="gke_${PROJECT_NAME}_${CLUSTER_REGION}_${CLUSTER_NAME}"
 set -e
 kubectl config use-context "$CONTEXT_NAME"
-set +e
