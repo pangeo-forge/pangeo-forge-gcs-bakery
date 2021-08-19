@@ -65,6 +65,7 @@ You will need:
    1. You will need to get helm(https://helm.sh/docs/intro/install/) to deploy loki to the cluster
    2. Get the info needed  to access the loki instance by using the instructions output to the terminal in the previous step
    3. Log in to grafana inline with the above
+      1. OR Use Lens to connect to Grafana by navigating to the loki-stack namespace, going to the loki-grafana pod, opening its properties and clicking on the "grafana:3000/TCP" entry to bring grafana to your local machine.
    4. Add the loki datasource inline with the instructions above, the URL of the Loki Stack is `http://loki-stack.loki-stack.svc.cluster.local:3100`
 3. Run `make getinfo` to see all the current flow runs on the prefect agent
 4. Pick the flow run you are interested in
