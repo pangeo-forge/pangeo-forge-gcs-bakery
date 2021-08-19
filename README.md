@@ -6,6 +6,7 @@ This repository serves as the provider of a Terraform and Kubernetes Application
 You will need:
 ### GCP Buckets
 - A bucket for the terraform state, whose name is updated in `terraform/providers.tf`
+  - You can create this by using the instructions here https://cloud.google.com/storage/docs/creating-buckets
 ### Tooling
 - Terraform
   - https://learn.hashicorp.com/tutorials/terraform/install-cli
@@ -58,6 +59,17 @@ You will need:
 ### Testing
 1. Run `make test` to register the test flow against your new Prefect agent
 2. Test the flow using the prefect cloud UI
+
+### Debugging
+1. Run `make loki` to deploy loki to the cluster via helm if you haven't already
+   1. You will need to get helm(https://helm.sh/docs/intro/install/) to deploy loki to the cluster
+   2. Get the info needed  to access the loki instance by using the instructions output to the terminal in the previous step
+   3. Log in to grafana inline with the above
+      1. OR Use Lens to connect to Grafana by navigating to the loki-stack namespace, going to the loki-grafana pod, opening its properties and clicking on the "grafana:3000/TCP" entry to bring grafana to your local machine.
+   4. Add the loki datasource inline with the instructions above, the URL of the Loki Stack is `http://loki-stack.loki-stack.svc.cluster.local:3100`
+3. Run `make getinfo` to see all the current flow runs on the prefect agent
+4. Pick the flow run you are interested in
+5. Use the provided information to query loki for the worker/scheduler logs you are interested in
 
 ### Destroying
 1. Run `make init` to ensure you are logged in to Google Cloud

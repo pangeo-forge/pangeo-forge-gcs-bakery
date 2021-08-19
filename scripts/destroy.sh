@@ -46,6 +46,7 @@ export TF_VAR_storage_service_account_name=$STORAGE_SERVICE_ACCOUNT_NAME
 export TF_VAR_cluster_service_account_name=$CLUSTER_SERVICE_ACCOUNT_NAME
 export TF_VAR_storage_name=$STORAGE_NAME
 export TF_VAR_cluster_name=$CLUSTER_NAME
+export TF_VAR_cluster_region="$CLUSTER_REGION"
 export TF_VAR_project_name=$PROJECT_NAME
 
 cd terraform || exit
