@@ -14,7 +14,7 @@ if [ ${#MAPFILE[@]} == 0 ]; then
   exit 1
 fi
 PS3="Select a run from the list:"
-select run in ${MAPFILE[@]}
+select run in "${MAPFILE[@]}"
 do
     echo "Selected character: $run"
     echo "Selected number: $REPLY"
