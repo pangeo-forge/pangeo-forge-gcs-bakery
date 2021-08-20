@@ -44,6 +44,7 @@ You will need:
   - Destroys all infrastructure from the last run of "make install"
 - generatebakeryyaml
   - Generates a bakery definition YAML
+
 ### Initialising the bakery
 1. Run `make init` to log in to Google Cloud
 2. Run `make install` to set up the infrastructure against your Google Cloud account
