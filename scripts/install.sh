@@ -81,6 +81,7 @@ fi
 if [ $OK == 0 ]; then
   exit 1
 fi
+
 echo "- Beginning gCloud init"
 gcloud config set project "$PROJECT_NAME"
 echo "- Beginning Terraform"

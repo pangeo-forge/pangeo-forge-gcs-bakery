@@ -1,25 +1,60 @@
 #!/bin/bash
-PLATFORM="google"
-CLUSTER_TYPE="gke"
-FLOW_STORAGE_PROTOCOL="gcsfs"
-MAX_WORKERS="10"
-
-REGION=$TF_VAR_region
-STORAGE_PLATFORM=$PLATFORM
-STORAGE_REGION=$REGION
-STORAGE_TARGET_NAME=$FLOW_CACHE_CONTAINER
-FLOW_STORAGE=$FLOW_STORAGE_CONTAINER
-PANGEO_FORGE_VERSION=$(echo $BAKERY_IMAGE | sed -rn "s/.*pangeoforgerecipes-(.*)/\1/p")
-PREFECT_VERSION=$(echo $BAKERY_IMAGE | sed -rn "s/.*prefect-(.*)_pangeoforgerecipes.*/\1/p")
-PANGEO_NOTEBOOK_VERSION=$(echo $BAKERY_IMAGE | sed -rn "s/.*pangeonotebook-(.*)_prefect.*/\1/p")
-WORKER_IMAGE=$BAKERY_IMAGE
-
 function cleanup {
   echo "Removing temporary JSON file"
   rm -f /tmp/input.json
 }
 
 trap cleanup EXIT
+
+ROOT=$(pwd)
+echo "------------------------------------------"
+echo "       Pangeo Forge - GCE bakery"
+echo " ----  BAKERY YAML GENERATOR SCRIPT ----"
+echo "------------------------------------------"
+echo "- Running prepare script"
+source "$ROOT/scripts/prepare.sh" "$ROOT"
+echo "- Checking prerequisites..."
+OK=1
+
+if [ -z "${BAKERY_IMAGE}" ]; then
+  echo "[X] - BAKERY_IMAGE is not set"
+  OK=0
+else
+  echo "BAKERY_IMAGE is set to ${BAKERY_IMAGE}"
+fi
+
+if [ -z "${CLUSTER_REGION}" ]; then
+  echo "[X] - CLUSTER_REGION is not set"
+  OK=0
+else
+  echo "CLUSTER_REGION is set to ${CLUSTER_REGION}"
+fi
+
+if [ -z "${STORAGE_NAME}" ]; then
+  echo "[X] - STORAGE_NAME is not set"
+  OK=0
+else
+  echo "STORAGE_NAME is set to ${STORAGE_NAME}"
+fi
+
+if [ $OK == 0 ]; then
+  exit 1
+fi
+
+PLATFORM="google"
+CLUSTER_TYPE="gke"
+FLOW_STORAGE_PROTOCOL="gcsfs"
+MAX_WORKERS="10"
+
+REGION=$CLUSTER_REGION
+STORAGE_PLATFORM=$PLATFORM
+STORAGE_REGION=$REGION
+STORAGE_TARGET_NAME=$STORAGE_NAME
+FLOW_STORAGE=$STORAGE_NAME
+PANGEO_FORGE_VERSION=$(echo "$BAKERY_IMAGE" | sed -rn "s/.*pangeoforgerecipes-(.*)/\1/p")
+PREFECT_VERSION=$(echo "$BAKERY_IMAGE" | sed -rn "s/.*prefect-(.*)_pangeoforgerecipes.*/\1/p")
+PANGEO_NOTEBOOK_VERSION=$(echo "$BAKERY_IMAGE" | sed -rn "s/.*pangeonotebook-(.*)_prefect.*/\1/p")
+WORKER_IMAGE=$BAKERY_IMAGE
 
 cat > /tmp/input.json << EOF
 {
