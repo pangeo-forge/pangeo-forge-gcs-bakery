@@ -23,3 +23,7 @@ getinfo:
 .PHONY: loki
 loki:
 	scripts/loki.sh $$(pwd)
+
+.PHONY: generatebakeryyaml
+generatebakeryyaml:
+	scripts/generate-yaml.sh
