@@ -35,14 +35,15 @@ You will need:
 - Fill it out with your own values
 ### Stages
 - init
-  - authenticates with Google Cloud to setup the default application credentials for use by later stages
+  - Authenticates with Google Cloud to setup the default application credentials for use by later stages
 - install
-  - provisions the cluster and storage infrastructure in Google Cloud
+  - Provisions the cluster and storage infrastructure in Google Cloud
 - test
-  - registers a test recipe against the prefect cloud instance for use by your agent(s)
+  - Registers a test recipe against the prefect cloud instance for use by your agent(s)
 - destroy
-  - destroys all infrastructure from the last run of "make install"
-
+  - Destroys all infrastructure from the last run of "make install"
+- generatebakeryyaml
+  - Generates a bakery definition YAML
 ### Initialising the bakery
 1. Run `make init` to log in to Google Cloud
 2. Run `make install` to set up the infrastructure against your Google Cloud account
@@ -82,3 +83,7 @@ You will need:
 ## Tagging
 - To apply tags to a resource, add them in `terraform/tags.tf`
 - Tags MUST BE lowercase letters,dash,underscore or numbers
+
+## Generating Bakery YAML files
+- To generate a bakery YAML file, run `make generatebakeryyaml`.
+- The resulting YAML can be added to the bakery definition repo here https://github.com/pangeo-forge/bakery-database/blob/main/bakeries.yaml
