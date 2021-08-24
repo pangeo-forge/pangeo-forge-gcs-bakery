@@ -24,6 +24,8 @@ You will need:
 - Lens (The Kubernetes IDE) - Optional
   - https://k8slens.dev/#download
   - Optional but makes debugging much much easier
+- Helm
+  - https://helm.sh/docs/intro/install/
 ### GCP Cloud project
   need a project set up with these APIs enabled:
 - Kubernetes Engine API
