@@ -63,6 +63,14 @@ You will need:
 2. Test the flow using the prefect cloud UI
 
 ### Debugging
+
+This bakery offers both a Loki instance and a bash script for getting information about your flow runs.
+This information includes exposing the Dask Scheduler dashboard on your local machine for your perusal.
+
+The script, when run with `make getinfo` will allow you to pick the flow run in which you are interested and will provide
+queries for use in Loki to allow you to drill further into the logs for the dask components associated with that run. It
+will also bring the Dask Scheduler dashboard to your local machine so that you can also use this to aid with debugging.
+
 1. Run `make loki` to deploy loki to the cluster via helm if you haven't already
    1. You will need to get helm(https://helm.sh/docs/intro/install/) to deploy loki to the cluster
    2. Get the info needed  to access the loki instance by using the instructions output to the terminal in the previous step
