@@ -84,16 +84,15 @@ fi
 echo "- Beginning gCloud init"
 gcloud config set project "$PROJECT_NAME"
 echo "- Beginning Terraform"
-cd "$ROOT/terraform"
 export TF_VAR_storage_service_account_name="$STORAGE_SERVICE_ACCOUNT_NAME"
 export TF_VAR_cluster_service_account_name="$CLUSTER_SERVICE_ACCOUNT_NAME"
 export TF_VAR_storage_name="$STORAGE_NAME"
 export TF_VAR_cluster_name="$CLUSTER_NAME"
 export TF_VAR_cluster_region="$CLUSTER_REGION"
 export TF_VAR_project_name="$PROJECT_NAME"
-terraform init
-terraform plan
-terraform apply
+terraform -chdir="terraform/" init
+terraform -chdir="terraform/" plan
+terraform -chdir="terraform/" apply
 
 echo "- Beginning storage operations"
 gcloud projects add-iam-policy-binding "$PROJECT_NAME" --member="serviceAccount:$STORAGE_SERVICE_ACCOUNT_NAME@$PROJECT_NAME.iam.gserviceaccount.com" --role="roles/viewer"
