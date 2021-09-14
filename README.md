@@ -43,29 +43,29 @@ You will need:
 - test
   - Registers a test recipe against the prefect cloud instance for use by your agent(s)
 - destroy
-  - Destroys all infrastructure from the last run of "make install"
+  - destroys all infrastructure from the last run of "make deploy"
 - generatebakeryyaml
   - Generates a bakery definition YAML
 
 ### Initialising the bakery
 1. Run `make init` to log in to Google Cloud
-2. Run `make install` to set up the infrastructure against your Google Cloud account
+2. Run `make deploy` to set up the infrastructure against your Google Cloud account
 3. Get a cup of tea whilst Prefect sorts itself out, this may take about 10 minutes.
-4. Run `make test` to register the test flow against your new Prefect agent
+4. Run `make test-flow` to register the test flow against your new Prefect agent
 5. Test the flow using the prefect cloud UI
 
 ### Updating
 1. Run `make init` to ensure you are logged in to Google Cloud
-2. Run `make install` to re-run terraform against your environment.
+2. Run `make deploy` to re-run terraform against your environment.
    1. NOTE: The Terraform configuration is designed to be idempotent, so you should normally see "No changes. Your infrastructure matches the configuration."
-3. Run `make test` to register the test flow.
+3. Run `make test-flow` to register the test flow.
 
 ### Testing
-1. Run `make test` to register the test flow against your new Prefect agent
+1. Run `make test-flow` to register the test flow against your new Prefect agent
 2. Test the flow using the prefect cloud UI
 
 ### Debugging
-1. Run `make loki` to deploy loki to the cluster via helm if you haven't already
+1. Run `make loki` to deploy loki to the cluster via helm if it is not already deployed. (This deployment is done automatically when the cluster is stood up with `make deploy`)
    1. You will need to get helm(https://helm.sh/docs/intro/install/) to deploy loki to the cluster
    2. Get the info needed  to access the loki instance by using the instructions output to the terminal in the previous step
    3. Log in to grafana inline with the above

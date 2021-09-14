@@ -16,9 +16,9 @@ deploy-cluster:
 destroy:
 	scripts/destroy.sh
 
-.PHONY: test
+.PHONY: test-flow
 test:
-	scripts/test.sh $$(pwd)/test/recipes/oisst_recipe.py $$(pwd)/kubernetes/storage_key.json
+	scripts/test-flow.sh $$(pwd)/test/recipes/oisst_recipe.py $$(pwd)/kubernetes/storage_key.json
 
 .PHONY: getinfo
 getinfo:
