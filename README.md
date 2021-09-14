@@ -72,13 +72,7 @@ You will need:
 ### To view Dask cluster logs via Grafana
 1. Get the info needed to access the Grafana instance with `make get-grafana-admin`.
 2. Use Lens to connect to Grafana by navigating Network -> Services and click `loki-grafana` and then click the `80:3000/TCP` link and use username `admin` and the password obtained in step 1.
-3. Add the Loki datasource in Grafana.
-    1. Click the the configuration incon on the left
-    2. Click Add Datasource
-    3. Select Loki
-    4. The URL of the Loki Stack is `http://loki-stack.loki-stack.svc.cluster.local:3100`
-    5. Click Save and Test
-4. Browsing logs
+3. Browsing logs
     1. Return to the main page and select the Explore icon on the left.
     2. Click Log Browser.
     3. After running a test flow via `make test-flow` use `make getinfo` to view a list of flow runs.
