@@ -17,7 +17,7 @@ destroy:
 	scripts/destroy.sh
 
 .PHONY: test-flow
-test-flow:
+test:
 	scripts/test-flow.sh $$(pwd)/test/recipes/oisst_recipe.py $$(pwd)/kubernetes/storage_key.json
 
 .PHONY: getinfo
