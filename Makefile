@@ -32,6 +32,10 @@ loki:
 get-cluster-creds:
 	./scripts/k8s-connect.sh
 
+.PHONY: get-grafana-admin
+get-grafana-admin:
+	./scripts/get-grafana-admin.sh
+
 .PHONY: generatebakeryyaml
 generatebakeryyaml:
 	scripts/generate-yaml.sh
