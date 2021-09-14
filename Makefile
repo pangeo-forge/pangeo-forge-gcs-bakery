@@ -1,12 +1,16 @@
 SHELL := /bin/bash
+#Composite Steps
+.PHONY: deploy
+deploy: deploy-cluster loki
 
+#Individual Steps
 .PHONY: init
 init:
 	scripts/init.sh
 
-.PHONY: install
-install:
-	scripts/install.sh
+.PHONY: deploy-cluster
+deploy-cluster:
+	scripts/deploy-cluster.sh
 
 .PHONY: destroy
 destroy:
