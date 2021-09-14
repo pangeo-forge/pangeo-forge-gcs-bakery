@@ -28,6 +28,10 @@ getinfo:
 loki:
 	scripts/loki.sh $$(pwd)
 
+.PHONY: get-cluster-creds
+get-cluster-creds:
+	./scripts/k8s-connect.sh
+
 .PHONY: generatebakeryyaml
 generatebakeryyaml:
 	scripts/generate-yaml.sh
