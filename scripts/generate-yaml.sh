@@ -51,9 +51,9 @@ STORAGE_PLATFORM=$PLATFORM
 STORAGE_REGION=$REGION
 STORAGE_TARGET_NAME=$STORAGE_NAME
 FLOW_STORAGE=$STORAGE_NAME
-PANGEO_FORGE_VERSION=$(echo "$BAKERY_IMAGE" | sed -rn "s/.*pangeoforgerecipes-(.*)/\1/p")
-PREFECT_VERSION=$(echo "$BAKERY_IMAGE" | sed -rn "s/.*prefect-(.*)_pangeoforgerecipes.*/\1/p")
-PANGEO_NOTEBOOK_VERSION=$(echo "$BAKERY_IMAGE" | sed -rn "s/.*pangeonotebook-(.*)_prefect.*/\1/p")
+PANGEO_FORGE_VERSION=$(echo "$BAKERY_IMAGE" | sed -En "s/.*pangeoforgerecipes-(.*)/\1/p")
+PREFECT_VERSION=$(echo "$BAKERY_IMAGE" | sed -En "s/.*prefect-(.*)_pangeoforgerecipes.*/\1/p")
+PANGEO_NOTEBOOK_VERSION=$(echo "$BAKERY_IMAGE" | sed -En "s/.*pangeonotebook-(.*)_prefect.*/\1/p")
 WORKER_IMAGE=$BAKERY_IMAGE
 
 cat > /tmp/input.json << EOF
