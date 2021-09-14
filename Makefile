@@ -10,7 +10,7 @@ init:
 
 .PHONY: deploy-cluster
 deploy-cluster:
-	scripts/deploy-cluster.sh
+	scripts/deploy.sh
 
 .PHONY: destroy
 destroy:
