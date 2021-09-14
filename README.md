@@ -64,16 +64,30 @@ You will need:
 1. Run `make test-flow` to register the test flow against your new Prefect agent
 2. Test the flow using the prefect cloud UI
 
-### Debugging
-1. Run `make loki` to deploy loki to the cluster via helm if it is not already deployed. (This deployment is done automatically when the cluster is stood up with `make deploy`)
-   1. You will need to get helm(https://helm.sh/docs/intro/install/) to deploy loki to the cluster
-   2. Get the info needed  to access the loki instance by using the instructions output to the terminal in the previous step
-   3. Log in to grafana inline with the above
-      1. OR Use Lens to connect to Grafana by navigating to the loki-stack namespace, going to the loki-grafana pod, opening its properties and clicking on the "grafana:3000/TCP" entry to bring grafana to your local machine.
-   4. Add the loki datasource inline with the instructions above, the URL of the Loki Stack is `http://loki-stack.loki-stack.svc.cluster.local:3100`
-3. Run `make getinfo` to see all the current flow runs on the prefect agent
-4. Pick the flow run you are interested in
-5. Use the provided information to query loki for the worker/scheduler logs you are interested in
+# Debugging
+1. Open Lens and add your cluster (this will leverage your updated kubectl config).
+2. To view pods in your pangeoforge namespace click workloads and select the namespace you specified when deploying.
+3. Verify your Prefect agent pod is healthy.
+
+### To view Dask cluster logs via Grafana
+1. Get the info needed to access the Grafana instance with `make get-grafana-admin`.
+2. Use Lens to connect to Grafana by navigating Network -> Services and click `loki-grafana` and then click the `80:3000/TCP` link and use username `admin` and the password obtained in step 1.
+3. Add the Loki datasource in Grafana.
+    1. Click the the configuration incon on the left
+    2. Click Add Datasource
+    3. Select Loki
+    4. The URL of the Loki Stack is `http://loki-stack.loki-stack.svc.cluster.local:3100`
+    5. Click Save and Test
+4. Browsing logs
+    1. Return to the main page and select the Explore icon on the left.
+    2. Click Log Browser.
+    3. After running a test flow via `make test-flow` use `make getinfo` to view a list of flow runs.
+    4. Select the flow run of interest and a set of Loki search terms will be provided.
+    5. Enter the search term in the Log Browser bar and click Shift+Enter.
+    6. To include additional search terms you can add `| "<your search term>" to the exising string.
+
+### Dask dashboard
+1. Once your flow is running and the Dask cluster pods have been created the Dask dashboard can be accessed at http://localhost:8787 once `make getinfo` has been run.
 
 ### Destroying
 1. Run `make init` to ensure you are logged in to Google Cloud
