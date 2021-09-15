@@ -30,11 +30,11 @@ else
   echo "CLUSTER_REGION is set to ${CLUSTER_REGION}"
 fi
 
-if [ -z "${STORAGE_NAME}" ]; then
-  echo "[X] - STORAGE_NAME is not set"
+if [ -z "${BAKERY_IDENTIFIER}" ]; then
+  echo "[X] - BAKERY_IDENTIFIER is not set"
   OK=0
 else
-  echo "STORAGE_NAME is set to ${STORAGE_NAME}"
+  echo "BAKERY_IDENTIFIER is set to ${BAKERY_IDENTIFIER}"
 fi
 
 if [ $OK == 0 ]; then
@@ -49,8 +49,8 @@ MAX_WORKERS="10"
 REGION=$CLUSTER_REGION
 STORAGE_PLATFORM=$PLATFORM
 STORAGE_REGION=$REGION
-STORAGE_TARGET_NAME=$STORAGE_NAME
-FLOW_STORAGE=$STORAGE_NAME
+STORAGE_TARGET_NAME="${BAKERY_IDENTIFIER}bakeryflowstorageaccount"
+FLOW_STORAGE="${BAKERY_IDENTIFIER}bakeryflowstorageaccount"
 PANGEO_FORGE_VERSION=$(echo "$BAKERY_IMAGE" | sed -En "s/.*pangeoforgerecipes-(.*)/\1/p")
 PREFECT_VERSION=$(echo "$BAKERY_IMAGE" | sed -En "s/.*prefect-(.*)_pangeoforgerecipes.*/\1/p")
 PANGEO_NOTEBOOK_VERSION=$(echo "$BAKERY_IMAGE" | sed -En "s/.*pangeonotebook-(.*)_prefect.*/\1/p")

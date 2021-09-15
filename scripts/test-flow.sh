@@ -60,11 +60,11 @@ else
   echo "PROJECT_NAME is set to ${PROJECT_NAME}"
 fi
 
-if [ -z "${STORAGE_NAME}" ]; then
-  echo "[X] - STORAGE_NAME is not set"
+if [ -z "${BAKERY_IDENTIFIER}" ]; then
+  echo "[X] - BAKERY_IDENTIFIER is not set"
   OK=0
 else
-  echo "STORAGE_NAME is set to ${PROJECT_NAME}"
+  echo "BAKERY_IDENTIFIER is set to ${BAKERY_IDENTIFIER}"
 fi
 
 if [ $OK == 0 ]; then
@@ -72,6 +72,8 @@ if [ $OK == 0 ]; then
 fi
 echo "- Beginning gCloud init"
 gcloud config set project "$PROJECT_NAME"
+
+export STORAGE_NAME="${BAKERY_IDENTIFIER}bakeryflowstorageaccount"
 
 echo "- Starting docker container"
 docker run -it \

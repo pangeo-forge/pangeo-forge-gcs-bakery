@@ -56,7 +56,6 @@ else
   echo "PROJECT_NAME is set to ${PROJECT_NAME}"
 fi
 
-
 if [ -z "${BAKERY_IDENTIFIER}" ]; then
   echo "[X] - BAKERY_IDENTIFIER is not set"
   OK=0

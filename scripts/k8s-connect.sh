@@ -16,11 +16,11 @@ else
   echo "PROJECT_NAME is set to ${PROJECT_NAME}"
 fi
 
-if [ -z "${CLUSTER_NAME}" ]; then
-  echo "[X] - CLUSTER_NAME is not set"
+if [ -z "${BAKERY_IDENTIFIER}" ]; then
+  echo "[X] - BAKERY_IDENTIFIER is not set"
   OK=0
 else
-  echo "CLUSTER_NAME is set to ${CLUSTER_NAME}"
+  echo "BAKERY_IDENTIFIER is set to ${BAKERY_IDENTIFIER}"
 fi
 
 if [ -z "${CLUSTER_REGION}" ]; then
@@ -35,6 +35,6 @@ if [ $OK == 0 ]; then
 fi
 echo "- Beginning gCloud kubernetes init"
 gcloud container clusters get-credentials "$CLUSTER_NAME" --region "$CLUSTER_REGION" --project "$PROJECT_NAME"
-CONTEXT_NAME="gke_${PROJECT_NAME}_${CLUSTER_REGION}_${CLUSTER_NAME}"
+CONTEXT_NAME="gke_${PROJECT_NAME}_${CLUSTER_REGION}_${BAKERY_IDENTIFIER}-bakery-cluster"
 set -e
 kubectl config use-context "$CONTEXT_NAME"
