@@ -34,6 +34,7 @@ if [ $OK == 0 ]; then
   exit 1
 fi
 echo "- Beginning gCloud kubernetes init"
+CLUSTER_NAME=STORAGE_TARGET_NAME="${BAKERY_IDENTIFIER}-bakery-cluster"
 gcloud container clusters get-credentials "$CLUSTER_NAME" --region "$CLUSTER_REGION" --project "$PROJECT_NAME"
 CONTEXT_NAME="gke_${PROJECT_NAME}_${CLUSTER_REGION}_${BAKERY_IDENTIFIER}-bakery-cluster"
 set -e

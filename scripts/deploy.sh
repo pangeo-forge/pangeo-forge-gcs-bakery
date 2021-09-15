@@ -92,7 +92,6 @@ gcloud projects add-iam-policy-binding "$PROJECT_NAME" --member="serviceAccount:
 gcloud iam service-accounts keys create "$ROOT/kubernetes/storage_key.json" --iam-account="$STORAGE_SERVICE_ACCOUNT_NAME@$PROJECT_NAME.iam.gserviceaccount.com"
 
 echo "- Beginning Kubernetes operations"
-echo "CLUSTER: $CLUSTER_NAME"
 echo "REGION: $CLUSTER_REGION"
 echo "PROJECT: $PROJECT_NAME"
 
