@@ -3,11 +3,11 @@ data "google_project" "project" {
 
 resource "google_service_account" "cluster" {
   account_id   = var.cluster_service_account_name
-  display_name = "PangeoForge GCS Bakery Cluster Service Account"
+  display_name = "${var.identifier} PangeoForge GCS Bakery Cluster Service Account"
 }
 
 resource "google_container_cluster" "primary" {
-  name     = var.cluster_name
+  name     = "${var.identifier}-bakery-cluster"
   location = var.cluster_region
   project  = var.project_name
 
@@ -28,7 +28,7 @@ resource "google_container_cluster" "primary" {
 }
 
 resource "google_container_node_pool" "primary_preemptible_nodes" {
-  name       = "alex-bush-node-pool"
+  name       = "${var.identifier}-node-pool"
   location   = var.cluster_region
   cluster    = google_container_cluster.primary.name
   node_count = 1

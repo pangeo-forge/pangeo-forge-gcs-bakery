@@ -56,19 +56,11 @@ else
   echo "PROJECT_NAME is set to ${PROJECT_NAME}"
 fi
 
-
-if [ -z "${STORAGE_NAME}" ]; then
-  echo "[X] - STORAGE_NAME is not set"
+if [ -z "${BAKERY_IDENTIFIER}" ]; then
+  echo "[X] - BAKERY_IDENTIFIER is not set"
   OK=0
 else
-  echo "STORAGE_NAME is set to ${STORAGE_NAME}"
-fi
-
-if [ -z "${CLUSTER_NAME}" ]; then
-  echo "[X] - CLUSTER_NAME is not set"
-  OK=0
-else
-  echo "CLUSTER_NAME is set to ${CLUSTER_NAME}"
+  echo "BAKERY_IDENTIFIER is set to ${BAKERY_IDENTIFIER}"
 fi
 
 if [ -z "${CLUSTER_REGION}" ]; then
@@ -88,8 +80,7 @@ echo "- Beginning Terraform"
 cd "$ROOT/terraform"
 export TF_VAR_storage_service_account_name="$STORAGE_SERVICE_ACCOUNT_NAME"
 export TF_VAR_cluster_service_account_name="$CLUSTER_SERVICE_ACCOUNT_NAME"
-export TF_VAR_storage_name="$STORAGE_NAME"
-export TF_VAR_cluster_name="$CLUSTER_NAME"
+export TF_VAR_identifier="$BAKERY_IDENTIFIER"
 export TF_VAR_cluster_region="$CLUSTER_REGION"
 export TF_VAR_project_name="$PROJECT_NAME"
 terraform init
@@ -101,7 +92,6 @@ gcloud projects add-iam-policy-binding "$PROJECT_NAME" --member="serviceAccount:
 gcloud iam service-accounts keys create "$ROOT/kubernetes/storage_key.json" --iam-account="$STORAGE_SERVICE_ACCOUNT_NAME@$PROJECT_NAME.iam.gserviceaccount.com"
 
 echo "- Beginning Kubernetes operations"
-echo "CLUSTER: $CLUSTER_NAME"
 echo "REGION: $CLUSTER_REGION"
 echo "PROJECT: $PROJECT_NAME"
 
