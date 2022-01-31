@@ -6,20 +6,20 @@
 
 data "google_compute_network" "default_network" {
   name    = "default"
-  project = var.project_id
+  project = var.project_name
 }
 
 data "google_compute_subnetwork" "default_subnetwork" {
   name    = "default"
-  project = var.project_id
-  region  = var.region
+  project = var.project_name
+  region  = var.cluster_region
 }
 
 resource "google_compute_firewall" "iap_ssh_ingress" {
   count = var.enable_private_cluster ? 1 : 0
 
   name    = "allow-ssh"
-  project = var.project_id
+  project = var.project_name
   network = data.google_compute_network.default_network.name
 
   allow {
@@ -36,17 +36,17 @@ resource "google_compute_router" "router" {
   count = var.enable_private_cluster ? 1 : 0
 
   name    = "${var.prefix}-router"
-  project = var.project_id
-  region  = var.region
+  project = var.project_name
+  region  = var.cluster_region
   network = data.google_compute_network.default_network.id
 }
 
 resource "google_compute_router_nat" "nat" {
   count = var.enable_private_cluster ? 1 : 0
 
-  name                               = "${var.prefix}-router-nat"
-  project                            = var.project_id
-  region                             = var.region
+  name                               = "${var.project_name}-router-nat"
+  project                            = var.project_name
+  region                             = var.cluster_region
   router                             = google_compute_router.router[0].name
   nat_ip_allocate_option             = "AUTO_ONLY"
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
