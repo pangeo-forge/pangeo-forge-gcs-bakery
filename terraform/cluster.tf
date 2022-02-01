@@ -25,6 +25,37 @@ resource "google_container_cluster" "primary" {
       ip_allocation_policy
     ]
   }
+
+  /**
+  * Following private cluster config adapted from 2i2c:
+  * https://github.com/2i2c-org/infrastructure/pull/538/files
+  */
+
+  // For private clusters, pass the name of the network and subnetwork created
+  // by the VPC
+  network    = var.enable_private_cluster ? data.google_compute_network.default_network.name : null
+  subnetwork = var.enable_private_cluster ? data.google_compute_subnetwork.default_subnetwork.name : null
+
+  // Dynamically provision the private cluster config when deploying a
+  // private cluster
+  dynamic "private_cluster_config" {
+    for_each = var.enable_private_cluster ? [1] : []
+
+    content {
+      // Decide if this CIDR block is sensible or not
+      master_ipv4_cidr_block  = "172.16.0.0/28"
+      enable_private_nodes    = true
+      enable_private_endpoint = false
+    }
+  }
+
+  // Dynamically provision the IP allocation policy when deploying a
+  // private cluster. This allows for IP aliasing and makes the cluster
+  // VPC-native
+  dynamic "ip_allocation_policy" {
+    for_each = var.enable_private_cluster ? [1] : []
+    content {}
+  }
 }
 
 resource "google_container_node_pool" "primary_preemptible_nodes" {

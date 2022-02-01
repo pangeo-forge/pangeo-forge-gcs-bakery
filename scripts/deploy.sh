@@ -78,6 +78,13 @@ else
   echo "CLUSTER_REGION is set to ${CLUSTER_REGION}"
 fi
 
+if [ -z "${ENABLE_PRIVATE_CLUSTER}" ]; then
+  echo "[X] - ENABLE_PRIVATE_CLUSTER is not set"
+  OK=0
+else
+  echo "ENABLE_PRIVATE_CLUSTER is set to ${ENABLE_PRIVATE_CLUSTER}"
+fi
+
 if [ $OK == 0 ]; then
   exit 1
 fi
@@ -92,6 +99,7 @@ export TF_VAR_storage_name="$STORAGE_NAME"
 export TF_VAR_cluster_name="$CLUSTER_NAME"
 export TF_VAR_cluster_region="$CLUSTER_REGION"
 export TF_VAR_project_name="$PROJECT_NAME"
+export TF_VAR_enable_private_cluster="$ENABLE_PRIVATE_CLUSTER"
 terraform init
 terraform plan
 terraform apply
