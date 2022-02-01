@@ -35,7 +35,7 @@ resource "google_compute_firewall" "iap_ssh_ingress" {
 resource "google_compute_router" "router" {
   count = var.enable_private_cluster ? 1 : 0
 
-  name    = "${var.prefix}-router"
+  name    = "${var.project_name}-router"
   project = var.project_name
   region  = var.cluster_region
   network = data.google_compute_network.default_network.id
