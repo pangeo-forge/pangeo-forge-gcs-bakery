@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function cleanupK8s {
   echo "Killing Kubernetes tunnel"
