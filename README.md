@@ -66,15 +66,18 @@ You will need:
 
 # Debugging
 1. Open Lens and add your cluster (this will leverage your updated kubectl config).
-2. To view pods in your pangeoforge namespace click workloads and select the namespace you specified when deploying.
-3. Verify your Prefect agent pod is healthy.
+2. To view pods in your namespace navigate to **Workloads > Pods**.
+3. From the **Namespace:** dropdown at the top right of the table, select the namespace you specified when deploying.
+4. Verify your Prefect agent pod is healthy.
 
 ### To view Dask cluster logs via Grafana
 1. Get the info needed to access the Grafana instance with `make get-grafana-admin`.
-2. Use Lens to connect to Grafana by navigating Network -> Services and click `loki-grafana` and then click the `80:3000/TCP` link and use username `admin` and the password obtained in step 1.
-3. Browsing logs
+2. In Lens, navigate to **Network > Services**.
+3. From the **Namespace:** dropdown at the top right of the table, select `loki-stack`.
+4. Select `loki-stack-granafa` from the displayed table. Within **Connection > Ports**, click the `80:3000/TCP` link and use username `admin` and the password obtained in step 1.
+5. Browsing logs
     1. Return to the main page and select the Explore icon on the left.
-    2. Click Log Browser.
+    2. From the dropdown next to **Explore** in the top left of the page, select **Loki**, then click **Log Browser**.
     3. After running a test flow via `make test-flow` use `make getinfo` to view a list of flow runs.
     4. Select the flow run of interest and a set of Loki search terms will be provided.
     5. Enter the search term in the Log Browser bar and click Shift+Enter.
