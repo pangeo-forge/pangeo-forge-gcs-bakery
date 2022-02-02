@@ -13,7 +13,18 @@ helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
 
 echo "- Deploying the loki stack"
-helm install loki-stack grafana/loki-stack \
+LOKI_NAMESPACE="loki-stack"
+LOKI_OPTIONS="promtail.enabled=true,loki.persistence.enabled=true,loki.persistence.size=100Gi,grafana.enabled=true"
+kubectl get ns | grep "$LOKI_NAMESPACE" > /dev/null 2>&1
+if [ $? -eq 1 ]; then
+  echo "- Namespace \"$LOKI_NAMESPACE\" does not exist, creating"
+  helm install $LOKI_NAMESPACE grafana/loki-stack \
                                 --create-namespace \
-                                --namespace loki-stack \
-                                --set promtail.enabled=true,loki.persistence.enabled=true,loki.persistence.size=100Gi,grafana.enabled=true
+                                --namespace $LOKI_NAMESPACE \
+                                --set $LOKI_OPTIONS
+else
+  echo "- Namespace \"$LOKI_NAMESPACE\" already exists, updating"
+  helm upgrade --install $LOKI_NAMESPACE grafana/loki-stack \
+                                --namespace $LOKI_NAMESPACE \
+                                --set $LOKI_OPTIONS
+fi
