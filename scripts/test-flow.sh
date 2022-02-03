@@ -64,7 +64,7 @@ if [ -z "${STORAGE_NAME}" ]; then
   echo "[X] - STORAGE_NAME is not set"
   OK=0
 else
-  echo "STORAGE_NAME is set to ${PROJECT_NAME}"
+  echo "STORAGE_NAME is set to ${STORAGE_NAME}"
 fi
 
 if [ $OK == 0 ]; then
