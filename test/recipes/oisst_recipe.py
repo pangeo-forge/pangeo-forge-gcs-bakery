@@ -21,7 +21,7 @@ def set_log_level(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         logging.basicConfig()
-        logging.getLogger("pangeo_forge.recipes.xarray_zarr").setLevel(
+        logging.getLogger("pangeo_forge_recipes").setLevel(
             level=logging.DEBUG
         )
         result = func(*args, **kwargs)
@@ -69,7 +69,7 @@ def register_recipe(recipe: BaseRecipe):
         """
     )
 
-    flow_name = "test-noaa-flow"
+    flow_name = "test-noaa-flow-pruned"
     flow.storage = GCS(
         bucket=f"{storage_name}"
     )
@@ -118,4 +118,5 @@ if __name__ == "__main__":
     pattern = pattern_from_file_sequence(input_urls, "time", nitems_per_file=1)
 
     recipe = XarrayZarrRecipe(pattern, inputs_per_chunk=20)
-    register_recipe(recipe)
+    pruned_recipe = recipe.copy_pruned()
+    register_recipe(pruned_recipe)
