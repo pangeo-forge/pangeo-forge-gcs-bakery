@@ -1,4 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+if [ "${BASH_VERSION::1}" -lt 4 ]; then
+  echo "This script uses the mapfile command which was added in bash version 4.0.0"
+  echo "The bash installed in your /usr/bin/env is version $BASH_VERSION"
+  echo "Please upgrade the bash version installed in /usr/bin/env to a version >= 4.0.0"
+  exit 1
+fi
 
 function cleanupK8s {
   echo "Killing Kubernetes tunnel"
