@@ -52,17 +52,24 @@ You will need:
 2. Run `make deploy` to set up the infrastructure against your Google Cloud account
 3. Get a cup of tea whilst Prefect sorts itself out, this may take about 10 minutes.
 4. Run `make test-flow` to register the test flow against your new Prefect agent
-5. Test the flow using the prefect cloud UI
+4. Test infrastructure according to the procedure described in **Testing** section below.
 
 ### Updating
 1. Run `make init` to ensure you are logged in to Google Cloud
 2. Run `make deploy` to re-run terraform against your environment.
    1. NOTE: The Terraform configuration is designed to be idempotent, so you should normally see "No changes. Your infrastructure matches the configuration."
-3. Run `make test-flow` to register the test flow.
+4. Test infrastructure according to the procedure described in **Testing** section below.
 
 ### Testing
-1. Run `make test-flow` to register the test flow against your new Prefect agent
-2. Test the flow using the prefect cloud UI
+1. Execute `make test-flow` to _register_ the test flow against your new Prefect agent
+
+> **Note**: `make test-flow` _**DOES NOT**_ run the flow. It only _registers_ it. To run the flow, continue with the remaining steps, below.
+
+2. Login to the Prefect Cloud UI at https://cloud.prefect.io/
+3. From your Prefect project homepage, select `FLOWS`.
+4. In the displayed table of flows, select the test flow, either by name or date.
+5. From the flow details page, use either the `RUN` or `QUICK RUN` buttons to initiate a test run of this flow.
+6. Introspect further details about this run using the **Debugging** instructions, below.
 
 # Debugging
 1. Open Lens and add your cluster (this will leverage your updated kubectl config).
@@ -78,7 +85,10 @@ You will need:
 5. Browsing logs
     1. Return to the main page and select the Explore icon on the left.
     2. From the dropdown next to **Explore** in the top left of the page, select **Loki**, then click **Log Browser**.
-    3. After running a test flow via `make test-flow` use `make getinfo` to view a list of flow runs.
+    
+       > _Register_ and _run_ a test flow according to the procedure described in **Testing** section above, before proceeding to step 3.
+    
+    3. Use `make getinfo` to view a list of flow runs.
     4. Select the flow run of interest and a set of Loki search terms will be provided.
     5. Enter the search term in the Log Browser bar and click Shift+Enter.
     6. To include additional search terms you can add `| "<your search term>" to the exising string.
