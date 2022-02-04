@@ -10,11 +10,10 @@ from dask_kubernetes.objects import make_pod_spec
 from pangeo_forge_recipes.patterns import pattern_from_file_sequence
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 from pangeo_forge_recipes.recipes.base import BaseRecipe
-from pangeo_forge_recipes.storage import CacheFSSpecTarget, FSSpecTarget
+from pangeo_forge_recipes.storage import CacheFSSpecTarget, MetadataTarget
 from prefect.storage import GCS
 from prefect.executors.dask import DaskExecutor
 from prefect.run_configs.kubernetes import KubernetesRun
-from rechunker.executors import PrefectPipelineExecutor
 
 
 def set_log_level(func):
@@ -33,25 +32,19 @@ def set_log_level(func):
 def register_recipe(recipe: BaseRecipe):
     storage_name = os.environ["STORAGE_NAME"]
     fs_remote = GCSFileSystem(
-        project= os.environ["PROJECT_NAME"],
-        bucket= os.environ["STORAGE_NAME"],
+        project=os.environ["PROJECT_NAME"],
+        bucket=storage_name,
     )
-    target = FSSpecTarget(
+    recipe.target = MetadataTarget(
         fs_remote,
         root_path=f"{storage_name}/target",
     )
-    recipe.target = target
     recipe.input_cache = CacheFSSpecTarget(
         fs_remote,
-        root_path=(
-            f"{storage_name}/cache"
-        ),
+        root_path=(f"{storage_name}/cache"),
     )
-    recipe.metadata_cache = target
 
-    executor = PrefectPipelineExecutor()
-    pipeline = recipe.to_pipelines()
-    flow = executor.pipelines_to_plan(pipeline)
+    flow = recipe.to_prefect()
 
     job_template = yaml.safe_load(
         """
@@ -117,6 +110,6 @@ if __name__ == "__main__":
     ]
     pattern = pattern_from_file_sequence(input_urls, "time", nitems_per_file=1)
 
-    recipe = XarrayZarrRecipe(pattern, inputs_per_chunk=20)
+    recipe = XarrayZarrRecipe(pattern, inputs_per_chunk=1)  # 1 input per chunk for pruned recipe
     pruned_recipe = recipe.copy_pruned()
     register_recipe(pruned_recipe)
